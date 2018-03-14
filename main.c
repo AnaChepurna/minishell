@@ -1,21 +1,28 @@
 #include "minishell.h"
 
-void	process(char *command)
+static void		handle_commands(char *input)
 {
-	if (ft_strequ(command, "exit"))
-		exit(1);
+	char	**commands;
+	size_t	i;
+
+	commands = ft_strsplit(input, ';');
+	i = 0;
+	while (commands[i])
+		execute(commands[i++]);
+	ft_arrfree(&commands);
 }
 
-int		main(int c, char **v, char **e)
+int				main(int c, char **v, char **e)
 {
 	char	*input;
 
+	g_envv = ft_arrtolst(e);
 	while(1)
 	{
-		ft_putstr( MAGENTA "♥" RESET " > ");
+		print_prompt();
 		if (get_next_line(1, &input) > 0)
 		{
-			process(input);
+			handle_commands(input);
 			free(input);
 		}
 	}
