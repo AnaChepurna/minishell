@@ -20,6 +20,11 @@ void	execute(char *command);
 void	print_prompt(void);
 void	print_error_arg(char *arg);
 int		print_env(void);
+int		echo(char **args);
+
+/*
+**main.c
+*/
 void	exit_minishell(void);
 
 #endif

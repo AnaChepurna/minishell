@@ -1,11 +1,23 @@
 #include "minishell.h"
 
+void			exit_minishell(void)
+{
+	ft_lstdel(&g_env, &ft_memclr);
+	exit(1);
+}
+
 static void		handle_commands(char *input)
 {
 	char	**commands;
 	size_t	i;
 
-	commands = ft_strsplit(input, ';');
+	commands = ft_strsplitmq(input, ";");
+	while (*commands)
+	{
+		ft_putendl(*commands);
+		commands++;
+	} 
+	exit(1); 
 	i = -1;
 	while (commands[++i])
 		execute(commands[i]);

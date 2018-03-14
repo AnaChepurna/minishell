@@ -1,5 +1,5 @@
 SRC = 	main.c \
-		utils.c \
+		echo.c \
 		execute.c
 LIB = libft/libft.a
 
