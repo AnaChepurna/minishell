@@ -48,8 +48,8 @@ static int		perform(const int fd, char **line, char **content, char *buf)
 	if (!ret && !ft_strlen(*content))
 		return (0);
 	len = ft_strlen(*content);
-	*line = ft_strnew(ln ? ln - *content : len);
-	ft_strncpy(*line, *content, ln ? ln - *content : len);
+	*line = ft_strnew(ln ? ln - *content : (intmax_t)len);
+	ft_strncpy(*line, *content, ln ? ln - *content : (intmax_t)len);
 	tmp = *content;
 	*content = ft_strdup(ln ? ln + 1 : "");
 	free(tmp);

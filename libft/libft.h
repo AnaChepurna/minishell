@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdint.h>
+# include <get_next_line.h>
 
 # define LL_MAX 9223372036854775807
 
