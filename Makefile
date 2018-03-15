@@ -1,7 +1,8 @@
 SRC = 	main.c \
 		echo.c \
 		execute.c \
-		env_manipulate.c
+		env.c \
+		cd.c
 LIB = libft/libft.a
 
 all:

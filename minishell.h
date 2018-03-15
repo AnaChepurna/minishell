@@ -2,7 +2,7 @@
 #define MINISHELL_H
 
 # include "libft/libft.h"
-# include <stdio.h>
+# include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -21,8 +21,7 @@ void	execute(char *command);
 **utils.c
 */
 void	print_prompt(void);
-void	print_error_arg(char *arg);
-int		print_env(void);
+void	print_error(char *arg, char *msg);
 int		echo(char **args);
 
 /*
@@ -31,8 +30,16 @@ int		echo(char **args);
 void	exit_minishell(void);
 
 /*
-**env_manopulate.c
+**env.c
 */
 char	*get_var(char *var_name);
+int		set_var(char *var_name, char *value);
+int		unset_var(char *var_name);
+int		print_env(void);
+
+/*
+**cd.c
+*/
+int		cd(char **args);
 
 #endif

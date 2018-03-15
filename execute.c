@@ -64,6 +64,8 @@ static int	exec_builtin(char **args)
 		return (print_env());
 	if (ft_strequ(args[0], "echo"))
 		return (echo(args + 1));
+	if (ft_strequ(args[0], "cd"))
+		return (cd(args + 1));
 	return (0);
 }
 
@@ -73,6 +75,6 @@ void		execute(char *command)
 
 	args = ft_strsplitm(command, " \t");
 	if (!(exec_builtin(args) || exec_bin(args)))
-		print_error_arg(args[0]);
+		print_error(args[0], ": command not found\n");
 	ft_arrfree(&args);
 }
