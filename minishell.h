@@ -3,6 +3,9 @@
 
 # include "libft/libft.h"
 # include <stdio.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define MAGENTA	"\x1B[35m"
 # define RESET		"\x1B[0m"
@@ -26,5 +29,10 @@ int		echo(char **args);
 **main.c
 */
 void	exit_minishell(void);
+
+/*
+**env_manopulate.c
+*/
+char	*get_var(char *var_name);
 
 #endif

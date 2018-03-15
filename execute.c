@@ -1,10 +1,59 @@
 #include "minishell.h"
 
+static int	run(char *path, char **args)
+{
+	pid_t	pid;
+	char	**env;
+	int		status;
+
+	status = 1;
+	env = ft_lsttoarr(g_env);
+	if (!(pid = fork()))
+		execve(path, args, env);
+	else if (pid < 0)
+		status = 0;
+	wait(&pid);
+	ft_arrfree(&env);
+	return (status);
+}
+
+static int	is_bin(char *path)
+{
+	struct stat st;
+
+	if (!lstat(path, &st))
+	{
+		if (st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
+			return (1);
+	}
+	return (0);
+}
 
 static int	exec_bin(char **args)
 {
-	(void)args;
-	return (0);
+	char		**paths;
+	char		*name;
+	size_t		i;
+	int			status;
+
+	name = ft_strdup(*args);
+	if (!(status = is_bin(name)))
+	{
+		paths = ft_strsplit(get_var("PATH="), ':');
+		i = -1;
+		while (paths[++i])
+		{
+			free(name);
+			name = ft_pathjoin(paths[i], *args);
+			if ((status = is_bin(name)))
+				break ;
+		}
+		ft_arrfree(&paths);
+	}
+	if (status)
+		status = run(name, args);
+	free(name);
+	return (status);
 }
 
 static int	exec_builtin(char **args)
@@ -23,7 +72,7 @@ void		execute(char *command)
 	char	**args;
 
 	args = ft_strsplitm(command, " \t");
-	if (!(exec_bin(args) || exec_builtin(args)))
+	if (!(exec_builtin(args) || exec_bin(args)))
 		print_error_arg(args[0]);
 	ft_arrfree(&args);
 }

@@ -12,12 +12,6 @@ static void		handle_commands(char *input)
 	size_t	i;
 
 	commands = ft_strsplitmq(input, ";");
-	while (*commands)
-	{
-		ft_putendl(*commands);
-		commands++;
-	} 
-	exit(1); 
 	i = -1;
 	while (commands[++i])
 		execute(commands[i]);
