@@ -39,16 +39,18 @@ static int	exec_bin(char **args)
 	name = ft_strdup(*args);
 	if (!(status = is_bin(name)))
 	{
-		paths = ft_strsplit(get_var("PATH="), ':');
-		i = -1;
-		while (paths[++i])
+		if ((paths = ft_strsplit(get_var("PATH="), ':')))
 		{
-			free(name);
-			name = ft_pathjoin(paths[i], *args);
-			if ((status = is_bin(name)))
-				break ;
+			i = -1;
+			while (paths[++i])
+			{
+				free(name);
+				name = ft_pathjoin(paths[i], *args);
+				if ((status = is_bin(name)))
+					break ;
+			}
+			ft_arrfree(&paths);
 		}
-		ft_arrfree(&paths);
 	}
 	if (status)
 		status = run(name, args);
@@ -58,6 +60,7 @@ static int	exec_bin(char **args)
 
 static int	exec_builtin(char **args)
 {
+
 	if (ft_strequ(args[0], "exit"))
 		exit_minishell();
 	if (ft_strequ(args[0], "env"))
@@ -66,6 +69,12 @@ static int	exec_builtin(char **args)
 		return (echo(args + 1));
 	if (ft_strequ(args[0], "cd"))
 		return (cd(args + 1));
+	if (ft_strequ(args[0], "setenv"))
+		return (ft_setenv(args + 1));
+	if (ft_strequ(args[0], "unsetenv"))
+		return (ft_unsetenv(args + 1));
+	if (ft_strequ(args[0], "undoenv"))
+		return (undoenv(args + 1));
 	return (0);
 }
 
@@ -75,6 +84,6 @@ void		execute(char *command)
 
 	args = ft_strsplitm(command, " \t");
 	if (!(exec_builtin(args) || exec_bin(args)))
-		print_error(args[0], ": command not found\n");
+		print_error(args[0], "command not found\n");
 	ft_arrfree(&args);
 }

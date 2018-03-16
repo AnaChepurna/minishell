@@ -3,6 +3,7 @@
 void			exit_minishell(void)
 {
 	ft_lstdel(&g_env, &ft_memclr);
+	ft_lstdel(&g_undo, &ft_memclr);
 	exit(1);
 }
 
@@ -25,6 +26,7 @@ int				main(int c, char **v, char **e)
 	(void)c;
 	(void)v;
 	g_env = ft_arrtolst(e);
+	g_undo = NULL;
 	while(1)
 	{
 		print_prompt();

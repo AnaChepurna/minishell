@@ -16,7 +16,7 @@ char	*get_var(char *var_name)
 	return (NULL);
 }
 
-int		unset_var(char *var_name)
+void		unset_var(char *var_name)
 {
 	t_list	*lst;
 	size_t	len;
@@ -29,35 +29,54 @@ int		unset_var(char *var_name)
 	{
 		if (ft_strnequ(var_name, (char *)lst->content, len))
 		{
-			ft_lstrm(g_env, i);
+			lst = ft_lstrm(&g_env, i);
+			ft_lstadd(&g_undo, lst);
 			break ;
 		}
 		i++;
 		lst = lst->next;
 	}
-	return (1);
 }
 
-int		set_var(char *var_name, char *value)
+void		set_var(char *var_name, char *value)
 {
 	char	*content;
 
+	if (!value)
+		return ;
 	content = ft_strjoin(var_name, value);
 	unset_var(var_name);
-	ft_lstadd(&g_env, ft_lstnew(content, ft_strlen(content) + 1));
+	ft_lstaddend(&g_env, ft_lstnew(content, ft_strlen(content) + 1));
 	free(content);
+}
+
+int		ft_unsetenv(char **args)
+{
+	char	*name;
+
+	while (*args)
+	{
+		name = ft_strjoin(*args, "=");
+		unset_var(name);
+		free(name);
+		args++;
+	}
 	return (1);
 }
 
-int		print_env(void)
+int		ft_setenv(char **args)
 {
-	t_list	*lst;
+	char	**vars;
+	char	*name;
 
-	lst = g_env;
-	while (lst)
+	while (*args)
 	{
-		ft_putendl((char *)lst->content);
-		lst = lst->next;
+		vars = ft_strsplit(*args, '=');
+		name = ft_strjoin(vars[0], "=");
+		set_var(name, vars[1]);
+		free(name);
+		ft_arrfree(&vars);
+		args++;
 	}
 	return (1);
 }

@@ -100,7 +100,7 @@ t_list				*ft_lstget(t_list *begin, int index);
 int					ft_lstgetindex(t_list *begin, t_list *lst);
 size_t				ft_lstlen(t_list *begin);
 t_list				*ft_lstpop(t_list **alst);
-t_list				*ft_lstrm(t_list *alst, int index);
+t_list				*ft_lstrm(t_list **alst, int index);
 char				**ft_lsttoarr(t_list *lst);
 void				ft_arrfree(char ***res);
 void				ft_swap(void **o1, void **o2);

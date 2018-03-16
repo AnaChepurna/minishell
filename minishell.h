@@ -11,6 +11,7 @@
 # define RESET		"\x1B[0m"
 
 t_list	*g_env;
+t_list	*g_undo;
 
 /*
 **execute.c
@@ -23,6 +24,7 @@ void	execute(char *command);
 void	print_prompt(void);
 void	print_error(char *arg, char *msg);
 int		echo(char **args);
+int		print_env(void);
 
 /*
 **main.c
@@ -33,13 +35,19 @@ void	exit_minishell(void);
 **env.c
 */
 char	*get_var(char *var_name);
-int		set_var(char *var_name, char *value);
-int		unset_var(char *var_name);
-int		print_env(void);
+void	set_var(char *var_name, char *value);
+void	unset_var(char *var_name);
+int		ft_setenv(char **args);
+int		ft_unsetenv(char **args);
 
 /*
 **cd.c
 */
 int		cd(char **args);
+
+/*
+**undo.c
+*/
+int		undoenv(char **args);
 
 #endif

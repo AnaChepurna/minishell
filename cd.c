@@ -4,11 +4,11 @@ static void		cd_errors(char	*path)
 {
 	ft_putstr_fd("cd: ", 2);
 	if (access(path, F_OK) == -1)
-		print_error(path, ": no such file or directory\n");
+		print_error(path, "no such file or directory\n");
 	else if (access(path, R_OK) == -1)
-		print_error(path, ": permission denied\n");
+		print_error(path, "permission denied\n");
 	else
-		print_error(path, ": not a directory\n");
+		print_error(path, "not a directory\n");
 }
 
 static void		set_pwd(char *path)
