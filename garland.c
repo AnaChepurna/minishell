@@ -44,8 +44,14 @@ static t_list	*create_cycle(char *str)
 
 static void		init_list(char	*str, t_list **list)
 {
+	t_list	*start;
+
 	if (*list)
-		ft_lstdel(list, &ft_memclr);
+	{
+		start = (*list)->next;
+		(*list)->next = NULL;
+		ft_lstdel(&start, &ft_memclr);
+	}
 	*list = create_cycle(str);
 }
 
