@@ -2,75 +2,73 @@
 
 static void		cd_errors(char	*path)
 {
-	ft_putstr_fd("cd: ", 2);
+	char	*error_name;
+
+	error_name = ft_strjoin ("cd: ", path);
 	if (access(path, F_OK) == -1)
-		print_error(path, "no such file or directory\n");
+		print_error(error_name, "no such file or directory\n");
 	else if (access(path, R_OK) == -1)
-		print_error(path, "permission denied\n");
+		print_error(error_name, "permission denied\n");
 	else
-		print_error(path, "not a directory\n");
+		print_error(error_name, "not a directory\n");
+	free(error_name);
 }
 
-static void		set_pwd(char *path)
+static void		set_pwd(char *path, char *oldpwd)
 {
-	char	*oldpwd;
+	char	*newpwd;
 	char	buf[512];
 
-	oldpwd = getcwd(buf, 512);
 	if (!chdir(path))
 	{
-		set_var("PWD=", path, 0);
+		newpwd = getcwd(buf, 512);
+		set_var("PWD=", newpwd, 0);
 		set_var("OLDPWD=", oldpwd, 0);
 	}
 	else
 		cd_errors(path);
-	(void)path;
 }
 
-static char		*get_newpwd(char *path)
+static char		*get_pwd(char *path, char *oldpwd)
 {
-	char	*res;
-	size_t	j;
-	size_t	i;
-	char	*oldpwd;
-	char	buf[512];
+	char	*buf;
+	char	*newpwd;
 
-	oldpwd = getcwd(buf, 512);
-	j = 0;
-	i = ft_strlen(oldpwd);
-	while (ft_strnequ(path + j, "../", 3))
+	if (!path || ft_strequ(path, "--") || ft_strequ(path, "~"))
+		newpwd = ft_strdup(get_var("HOME="));
+	else if (ft_strequ(path, "-"))
 	{
-		j += 3;
-		while (--i <= 0 && oldpwd[i] != '/')
-			{}
+		newpwd = ft_strdup(get_var("OLDPWD="));
+		ft_putendl(newpwd);
 	}
-	while (ft_strnequ(path + j, "./", 2))
-		j += 2;
-	if ((res = ft_strnew(i + ft_strlen(path + j))))
+	else if (ft_strnequ(path, "/", 1))
+		newpwd = ft_strdup(path);
+	else
 	{
-		ft_strncpy(res, oldpwd, i);
-		res[i] = '/';
-		ft_strcpy(res + i + 1, path + j);
+		if (ft_strnequ(path, "~", 1))
+		{
+			buf = ft_strdup(get_var("HOME="));
+			path += 2;
+		}
+		else
+			buf = ft_strdup(oldpwd);
+		newpwd = ft_pathjoin(buf, path);
+		free(buf);
 	}
-	return (res);
+	return (newpwd);
 }
 
 int				cd(char **args)
 {
 	char	*path;
+	char	*oldpwd;
+	char	buf[512];
 
-	if (!(*args) || ft_strequ(*args, "--") || ft_strequ(*args, "~"))
-		path = ft_strdup(get_var("HOME="));
-	else if (ft_strequ(*args, "-"))
-	{
-		path = ft_strdup(get_var("OLDPWD="));
-		ft_putendl(path);
-	}
-	else
-		path = get_newpwd(*args);
+	oldpwd = getcwd(buf, 512);
+	path = get_pwd(*args, oldpwd);
 	if (path)
 	{
-		set_pwd(path);
+		set_pwd(path, oldpwd);
 		free(path);
 	}
 	else
