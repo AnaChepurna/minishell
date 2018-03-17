@@ -52,6 +52,8 @@ int		cd(char **args);
 **input.c
 */
 char	*get_input(void);
+void	debug_specials(char **input);
+void	delete_quotes(char **input);
 
 /*
 **signal.c

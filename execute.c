@@ -88,8 +88,16 @@ static int	exec_builtin(char **args)
 void		execute(char *command)
 {
 	char	**args;
+	size_t	i;
 
-	args = ft_strsplitm(command, " \t");
+	args = ft_strsplitmq(command, " \t");
+	i = 0;
+	while (args[i])
+	{
+		debug_specials(&(args[i]));
+		delete_quotes(&(args[i]));
+		i++;
+	}
 	if (!(exec_builtin(args) || exec_bin(args)))
 		print_error(args[0], "command not found\n");
 	ft_arrfree(&args);

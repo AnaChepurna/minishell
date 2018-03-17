@@ -1,6 +1,60 @@
 #include "minishell.h"
 
-int			check_quotes(char *str)
+void		debug_specials(char **input)
+{
+	char	*ptr;
+	char	*src;
+	char	*res;
+	size_t	len;
+
+	if ((ptr = ft_strchr(*input, '~')) == *input) 
+	{
+		src = get_var("HOME=");
+		len = ft_strlen(src);
+		if ((res = ft_strnew(len + ft_strlen(*input + 1))))
+		{
+			ft_strcpy(res, src);
+			ft_strcpy(res + len, *input + 1);
+			free(*input);
+			*input = res;
+		}
+	}
+}
+
+void		delete_quotes(char **input)
+{
+	char	c;
+	char	*ptr[2];
+	char	*res;
+	size_t	j;
+	size_t	i;
+
+	ptr[0] = ft_strchr(*input, '"');
+	ptr[1] = ft_strchr(*input, '\'');
+	if (!ptr[0] && !ptr[1])
+		return ;
+	else if (ptr[0] && ptr[1])
+		c = ptr[0] < ptr[1] ? '"' : '\'';
+	else if (ptr[0])
+		c = '"';
+	else if (ptr[1])
+		c = '\'';
+	if ((res = ft_strnew(ft_strlen(*input) - 2)))
+	{
+		i = 0;
+		j = 0;
+		while ((*input)[j])
+		{
+			if ((*input)[j] != c)
+				res[i++] = (*input)[j];
+			j++;
+		}
+		free(*input);
+		*input = res;
+	}
+}
+
+static int	check_quotes(char *str)
 {
 	int		res;
 	char	c;
@@ -29,7 +83,7 @@ int			check_quotes(char *str)
 	return (res);
 }
 
-int			get_next_line_handler(char **str, int quote)
+static int	get_next_line_handler(char **str, int quote)
 {
 	int ret;
 

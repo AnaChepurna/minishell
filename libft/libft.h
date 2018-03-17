@@ -20,6 +20,7 @@
 # include "get_next_line.h"
 
 # define LL_MAX 9223372036854775807
+# define IS_SPACE(n) ((n) == ' ' || (n) == '\t')
 
 typedef struct		s_list
 {
