@@ -14,14 +14,16 @@ static int		depend_mask(char c, const char *mask)
 static int		split_len(const char *str, const char *mask)
 {
 	int		i;
+	char	c;
 
 	i = 0;
 	while (str[++i] && !depend_mask(str[i], mask))
 		{
 			if (str[i] == '"' || str[i] == '\'')
 			{
+				c = str[i];
 				i++;
-				while (str[i] && str[i] != '"' && str[i] != '\'')
+				while (str[i] && str[i] != c)
 					i++;
 			}
 			if (str[i])
@@ -32,6 +34,8 @@ static int		split_len(const char *str, const char *mask)
 
 static int		recursive_count(const char *str, const char *mask)
 {
+	char	c;
+
 	if (depend_mask(*str, mask))
 		return (recursive_count(++str, mask));
 	if (*str)
@@ -40,8 +44,9 @@ static int		recursive_count(const char *str, const char *mask)
 		{
 			if (*str == '"' || *str == '\'')
 			{
+				c = *str;
 				str++;
-				while (*str && *str != '"' && *str != '\'')
+				while (*str && *str != c)
 					str++;
 			}
 			if (*str)
@@ -56,27 +61,27 @@ static int		recursive_count(const char *str, const char *mask)
 static int		recursive_split(char **dst, const char *str,
 	const char *mask)
 {
-	char	*res;
 	int		i;
+	char	c;
 
 	if (depend_mask(*str, mask))
 		return (recursive_split(dst, ++str, mask));
 	if (*str)
 	{
-		if (!(res = ft_strnew(split_len(str, mask))))
+		if (!(*dst = ft_strnew(split_len(str, mask))))
 			return (0);
 		i = 0;
 		while (*str && !depend_mask(*str, mask))
 		{
 			if (*str == '"' || *str == '\'')
 			{
-				res[i++] = *(str++);
-				while (*str && *str != '"' && *str != '\'')
-					res[i++] = *(str++);
+				c = *str;
+				(*dst)[i++] = *(str++);
+				while (*str && *str != c)
+					(*dst)[i++] = *(str++);
 			}
-			res[i++] = (*str) ? *str++ : *str;
+			(*dst)[i++] = (*str) ? *str++ : *str;
 		}
-		*dst = res;
 		return (recursive_split(++dst, str, mask));
 	}
 	*dst = NULL;
