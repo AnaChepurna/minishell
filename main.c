@@ -35,6 +35,7 @@ int				main(int c, char **v, char **e)
 	while(1)
 	{
 		print_prompt();
+		signal(SIGINT, sigint_handler);
 		if ((input = get_input()))
 		{
 			handle_commands(input);

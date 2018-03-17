@@ -3,7 +3,8 @@ SRC = 	main.c \
 		execute.c \
 		env.c \
 		cd.c \
-		input.c
+		input.c \
+		signal.c
 LIB = libft/libft.a
 
 all:

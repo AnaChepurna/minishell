@@ -9,9 +9,12 @@ static int	run(char *path, char **args)
 	status = 1;
 	env = ft_lsttoarr(g_env);
 	if (!(pid = fork()))
+	{
 		execve(path, args, env);
+	}
 	else if (pid < 0)
 		status = 0;
+	signal(SIGINT, sigint_fork_handler);
 	wait(&pid);
 	ft_arrfree(&env);
 	return (status);

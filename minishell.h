@@ -6,6 +6,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define MAGENTA	"\x1B[35m"
 # define RESET		"\x1B[0m"
@@ -51,5 +52,11 @@ int		cd(char **args);
 **input.c
 */
 char	*get_input(void);
+
+/*
+**signal.c
+*/
+void	sigint_handler(int signo);
+void	sigint_fork_handler(int signo);
 
 #endif
