@@ -4,7 +4,8 @@ SRC = 	main.c \
 		env.c \
 		cd.c \
 		input.c \
-		signal.c
+		signal.c \
+		garland.c
 LIB = libft/libft.a
 
 all:

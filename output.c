@@ -2,7 +2,11 @@
 
 void	print_prompt(void)
 {
-	ft_putstr( MAGENTA "♥" RESET " > ");
+	char	*color;
+
+	color = get_color();
+	ft_putstr(color);
+	ft_putstr("♥" RESET " > ");
 }
 
 void	print_error(char *arg, char *msg)

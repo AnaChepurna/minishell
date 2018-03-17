@@ -45,7 +45,7 @@ int		unset_var(char *var_name, int save)
 int			set_var(char *var_name, char *value, int save)
 {
 	char	*content;
-
+	char	*buf;
 
 	if (!var_name)
 	{
@@ -54,7 +54,10 @@ int			set_var(char *var_name, char *value, int save)
 	}
 	if (!value)
 		return (1);
-	content = ft_strjoin(var_name, value);
+	content = ft_strjoin(var_name, "=");
+	buf = content;
+	content = ft_strjoin(buf, value);
+	free(buf);
 	unset_var(var_name, save);
 	ft_lstaddend(&g_env, ft_lstnew(content, ft_strlen(content) + 1));
 	free(content);
