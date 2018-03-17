@@ -35,7 +35,7 @@ int				main(int c, char **v, char **e)
 	while(1)
 	{
 		print_prompt();
-		if (get_next_line(1, &input) > 0)
+		if ((input = get_input()))
 		{
 			handle_commands(input);
 			free(input);

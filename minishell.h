@@ -20,7 +20,7 @@ char	**g_start_env;
 void	execute(char *command);
 
 /*
-**utils.c
+**output.c
 */
 void	print_prompt(void);
 void	print_error(char *arg, char *msg);
@@ -48,7 +48,8 @@ int		reset_env(void);
 int		cd(char **args);
 
 /*
-**undo.c
+**input.c
 */
+char	*get_input(void);
 
 #endif

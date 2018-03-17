@@ -58,7 +58,7 @@ static int		perform(const int fd, char **line, char **content, char *buf)
 
 int				get_next_line(const int fd, char **line)
 {
-	static t_list	*file;
+	static t_list	*file = NULL;
 	t_list			*current_file;
 	char			*buf;
 	int				status;
