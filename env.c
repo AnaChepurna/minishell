@@ -16,12 +16,14 @@ char	*get_var(char *var_name)
 	return (NULL);
 }
 
-void		unset_var(char *var_name)
+int		unset_var(char *var_name, int save)
 {
 	t_list	*lst;
 	size_t	len;
 	int		i;
 
+	if (!var_name)
+		print_error("unsetenv", "too few arguments\n");
 	lst = g_env;
 	len = ft_strlen(var_name);
 	i = 0;
@@ -30,53 +32,67 @@ void		unset_var(char *var_name)
 		if (ft_strnequ(var_name, (char *)lst->content, len))
 		{
 			lst = ft_lstrm(&g_env, i);
-			ft_lstadd(&g_undo, lst);
+			if (save)
+				ft_lstadd(&g_undo, lst);
 			break ;
 		}
 		i++;
 		lst = lst->next;
 	}
+	return (1);
 }
 
-void		set_var(char *var_name, char *value)
+int			set_var(char *var_name, char *value, int save)
 {
 	char	*content;
 
+
+	if (!var_name)
+	{
+		print_error("setenv", "too few arguments\n");
+		return (1);
+	}
 	if (!value)
-		return ;
+		return (1);
 	content = ft_strjoin(var_name, value);
-	unset_var(var_name);
+	unset_var(var_name, save);
 	ft_lstaddend(&g_env, ft_lstnew(content, ft_strlen(content) + 1));
 	free(content);
+	return (1);
 }
 
-int		ft_unsetenv(char **args)
+int			undo_var(char *var_name)
 {
-	char	*name;
+	t_list	*lst;
+	size_t	i;
+	size_t	len;
 
-	while (*args)
+	if (!var_name)
+		print_error("undoenv", "too few arguments\n");
+	lst = g_undo;
+	i = 0;
+	len = ft_strlen(var_name);
+	while (lst)
 	{
-		name = ft_strjoin(*args, "=");
-		unset_var(name);
-		free(name);
-		args++;
+		if (ft_strnequ(var_name, (char *)lst->content, len))
+		{
+			lst = ft_lstrm(&g_undo, i);
+			break ;
+		}
+		lst = lst->next;
+		i++;
+	}
+	if (lst)
+	{
+		set_var(var_name, (char *)lst->content + len, 0);
+		ft_lstdelone(&lst, &ft_memclr);
 	}
 	return (1);
 }
 
-int		ft_setenv(char **args)
+int			reset_env(void)
 {
-	char	**vars;
-	char	*name;
-
-	while (*args)
-	{
-		vars = ft_strsplit(*args, '=');
-		name = ft_strjoin(vars[0], "=");
-		set_var(name, vars[1]);
-		free(name);
-		ft_arrfree(&vars);
-		args++;
-	}
+	clear_global();
+	init_global();
 	return (1);
 }

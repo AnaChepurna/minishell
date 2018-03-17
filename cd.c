@@ -19,8 +19,8 @@ static void		set_pwd(char *path)
 	oldpwd = getcwd(buf, 512);
 	if (!chdir(path))
 	{
-		set_var("PWD=", path);
-		set_var("OLDPWD=", oldpwd);
+		set_var("PWD=", path, 0);
+		set_var("OLDPWD=", oldpwd, 0);
 	}
 	else
 		cd_errors(path);

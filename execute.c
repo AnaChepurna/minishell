@@ -60,9 +60,11 @@ static int	exec_bin(char **args)
 
 static int	exec_builtin(char **args)
 {
-
 	if (ft_strequ(args[0], "exit"))
-		exit_minishell();
+	{
+		clear_global();
+		exit(1);
+	}
 	if (ft_strequ(args[0], "env"))
 		return (print_env());
 	if (ft_strequ(args[0], "echo"))
@@ -70,11 +72,13 @@ static int	exec_builtin(char **args)
 	if (ft_strequ(args[0], "cd"))
 		return (cd(args + 1));
 	if (ft_strequ(args[0], "setenv"))
-		return (ft_setenv(args + 1));
+		return (set_var(args[1], args[2], 1));
 	if (ft_strequ(args[0], "unsetenv"))
-		return (ft_unsetenv(args + 1));
+		return (unset_var(args[1],  1));
 	if (ft_strequ(args[0], "undoenv"))
-		return (undoenv(args + 1));
+		return (undo_var(args[1]));
+	if (ft_strequ(args[0], "resetenv"))
+		return (reset_env());
 	return (0);
 }
 

@@ -12,6 +12,7 @@
 
 t_list	*g_env;
 t_list	*g_undo;
+char	**g_start_env;
 
 /*
 **execute.c
@@ -29,16 +30,17 @@ int		print_env(void);
 /*
 **main.c
 */
-void	exit_minishell(void);
+void	clear_global(void);
+void	init_global(void);
 
 /*
 **env.c
 */
 char	*get_var(char *var_name);
-void	set_var(char *var_name, char *value);
-void	unset_var(char *var_name);
-int		ft_setenv(char **args);
-int		ft_unsetenv(char **args);
+int		set_var(char *var_name, char *value, int save);
+int		unset_var(char *var_name, int save);
+int		undo_var(char *var_name);
+int		reset_env(void);
 
 /*
 **cd.c
@@ -48,6 +50,5 @@ int		cd(char **args);
 /*
 **undo.c
 */
-int		undoenv(char **args);
 
 #endif
