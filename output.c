@@ -1,12 +1,48 @@
 #include "minishell.h"
 
+char	*get_pwd(void)
+{
+	char	*pwd;
+	char	buf[512];
+	char	*home;
+	char	*res;
+	size_t	len;
+
+	if (ft_strequ(get_var("PROMPT_PWD="), "on"))
+	{
+		pwd = getcwd(buf, 512);
+		home = get_var("HOME=");
+		len = ft_strlen(home);
+		if (ft_strnequ(pwd, home, len))
+		{
+			if ((res = ft_strnew(ft_strlen(pwd) - len + 1)))
+			{
+				res[0] = '~';
+				ft_strcpy(res + 1, pwd + len);
+			}
+		}
+		else
+			res = ft_strdup(pwd);
+		return (res);
+	}
+	return (NULL);
+}
+
 void	print_prompt(void)
 {
+	char	*pwd;
 	char	*color;
 
 	color = get_color();
+	pwd = get_pwd();
 	ft_putstr(color);
-	ft_putstr("♥" RESET " > ");
+	ft_putstr("♥" RESET " ");
+	if (pwd)
+	{
+		ft_putstr(":");
+		ft_putstr (pwd);
+	}
+	ft_putstr("> ");
 }
 
 void	print_error(char *arg, char *msg)
