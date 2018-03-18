@@ -27,11 +27,11 @@ void		debug_eof(char	**input)
 	char	*res;
 	size_t	i;
 
-	if ((ptr = ft_strchr(*input, '$')) && ptr[1] && !(IS_SPACE(ptr[1])))
+	if ((ptr = ft_strchr(*input, '$')) && ptr[0] && ptr[1] && !(IS_SPACE(ptr[1])))
 	{
 		while (ptr[i] && !(IS_SPACE(ptr[i])))
 			i++;
-		if ((res = ft_strnew(ft_strlen(*input) - i)))
+		if ((res = ft_strnew(ft_strlen(*input) - i + 1)))
 		{
 			ft_strncpy(res, *input, ptr - *input);
 			ft_strcpy(res + (ptr - *input), ptr + i);

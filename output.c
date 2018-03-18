@@ -41,6 +41,7 @@ void	print_prompt(void)
 	{
 		ft_putstr(":");
 		ft_putstr (pwd);
+		free(pwd);
 	}
 	ft_putstr("> ");
 }

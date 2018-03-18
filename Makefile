@@ -9,4 +9,4 @@ SRC = 	main.c \
 LIB = libft/libft.a
 
 all:
-	gcc -Wall -Wextra -Werror $(SRC) $(LIB)
+	gcc -g -Wall -Wextra -Werror $(SRC) $(LIB)

@@ -67,7 +67,8 @@ char			*get_color(void)
 	else if (!ft_strequ(oldenv, newenv))
 	{
 		init_list(newenv, &list);
-		oldenv = newenv;
+		free(oldenv);
+		oldenv = ft_strdup(newenv);
 	}
 	list = list->next;
 	return ((char *)list->content);

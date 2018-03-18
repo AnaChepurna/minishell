@@ -3,7 +3,9 @@
 void			clear_global(void)
 {
 	ft_lstdel(&g_env, &ft_memclr);
+	g_env = NULL;
 	ft_lstdel(&g_undo, &ft_memclr);
+	g_undo = NULL;
 }
 
 void			init_global(void)

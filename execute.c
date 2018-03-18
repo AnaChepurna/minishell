@@ -38,6 +38,7 @@ static int	is_bin(char *path, int	check_dir)
 			dir = ft_strsub(path, 0, i);
 			if (!lstat(dir, &st) && st.st_mode & S_IFDIR)
 				isdir = 1;
+			free(dir);
 		}
 	}
 	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)

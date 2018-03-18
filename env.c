@@ -19,7 +19,6 @@ char	*get_var(char *var_name)
 int		unset_var(char *var_name, int save)
 {
 	t_list	*lst;
-	size_t	len;
 	int		i;
 	char	*buf;
 
@@ -27,15 +26,16 @@ int		unset_var(char *var_name, int save)
 		print_error("unsetenv", "too few arguments\n");
 	lst = g_env;
 	buf = ft_strjoin(var_name, "=");
-	len = ft_strlen(buf);
 	i = 0;
 	while (lst)
 	{
-		if (ft_strnequ(buf, (char *)lst->content, len))
+		if (ft_strnequ(buf, (char *)lst->content, ft_strlen(buf)))
 		{
 			lst = ft_lstrm(&g_env, i);
 			if (save)
 				ft_lstadd(&g_undo, lst);
+			else
+				ft_lstdelone(&lst, &ft_memclr);
 			break ;
 		}
 		i++;
@@ -57,8 +57,7 @@ int			set_var(char *var_name, char *value, int save)
 	}
 	if (!value)
 		return (1);
-	content = ft_strjoin(var_name, "=");
-	buf = content;
+	buf = ft_strjoin(var_name, "=");
 	content = ft_strjoin(buf, value);
 	free(buf);
 	unset_var(var_name, save);
@@ -90,8 +89,8 @@ int			undo_var(char *var_name)
 	}
 	if (lst)
 	{
-		set_var(var_name, (char *)lst->content + len, 0);
-		ft_lstdelone(&lst, &ft_memclr);
+		set_var(var_name, (char *)lst->content + len + 1, 0);
+		ft_lstdel(&lst, &ft_memclr);
 	}
 	return (1);
 }
