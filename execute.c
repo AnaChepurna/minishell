@@ -97,6 +97,8 @@ static int	exec_builtin(char **args)
 		return (undo_var(args[1]));
 	if (ft_strequ(args[0], "resetenv"))
 		return (reset_env());
+	if (ft_strequ(args[0], "help"))
+		return (help());
 	return (0);
 }
 

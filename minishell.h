@@ -72,5 +72,6 @@ void	sigint_fork_handler(int signo);
 **garland.c
 */
 char	*get_color(void);
+int		help(void);
 
 #endif

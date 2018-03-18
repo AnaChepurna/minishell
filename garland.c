@@ -72,3 +72,21 @@ char			*get_color(void)
 	list = list->next;
 	return ((char *)list->content);
 }
+
+int				help(void)
+{
+	int		fd;
+	char	*str;
+
+	if ((fd = open("help", O_RDONLY)))
+	{
+		while (get_next_line(fd, &str) > 0)
+		{
+			ft_putendl(str);
+			free(str);
+		}
+		close(fd);
+		return (1);
+	}
+	return (0);
+}

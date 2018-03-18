@@ -98,12 +98,7 @@ int			undo_var(char *var_name)
 
 int			reset_env(void)
 {
-	char	*currentpwd;
-	char	buf[512];
-
 	clear_global();
 	init_global();
-	currentpwd = getcwd(buf, 512);
-	set_pwd(currentpwd, get_var("PWD="));
 	return (1);
 }
