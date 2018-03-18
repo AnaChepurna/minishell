@@ -20,16 +20,31 @@ static int	run(char *path, char **args)
 	return (status);
 }
 
-static int	is_bin(char *path)
+static int	is_bin(char *path, int	check_dir)
 {
 	struct stat st;
+	char		*dir;
+	int			i;
+	int			isdir;
 
-	if (!lstat(path, &st))
+	i = (int)ft_strlen(path);
+	isdir = 0;
+	if (check_dir)
 	{
-		if (st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
-			return (1);
+		while (i >= 0 && path[i] != '/')
+			i--;
+		if (i >= 0)
+		{
+			dir = ft_strsub(path, 0, i);
+			if (!lstat(dir, &st) && st.st_mode & S_IFDIR)
+				isdir = 1;
+		}
 	}
-	return (0);
+	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
+		return (1);
+	if (isdir)
+		print_error(path, "no such file or directory\n");
+	return (isdir ? 2 : 0);
 }
 
 static int	exec_bin(char **args)
@@ -40,7 +55,7 @@ static int	exec_bin(char **args)
 	int			status;
 
 	name = ft_strdup(*args);
-	if (!(status = is_bin(name)))
+	if (!(status = is_bin(name, 1)))
 	{
 		if ((paths = ft_strsplit(get_var("PATH="), ':')))
 		{
@@ -49,13 +64,13 @@ static int	exec_bin(char **args)
 			{
 				free(name);
 				name = ft_pathjoin(paths[i], *args);
-				if ((status = is_bin(name)))
+				if ((status = is_bin(name, 0)))
 					break ;
 			}
 			ft_arrfree(&paths);
 		}
 	}
-	if (status)
+	if (status == 1)
 		status = run(name, args);
 	free(name);
 	return (status);
