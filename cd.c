@@ -14,7 +14,7 @@ static void		cd_errors(char	*path)
 	free(error_name);
 }
 
-static void		set_pwd(char *path, char *oldpwd)
+void			set_pwd(char *path, char *oldpwd)
 {
 	char	*newpwd;
 	char	buf[512];
@@ -22,8 +22,8 @@ static void		set_pwd(char *path, char *oldpwd)
 	if (!chdir(path))
 	{
 		newpwd = getcwd(buf, 512);
-		set_var("PWD=", newpwd, 0);
-		set_var("OLDPWD=", oldpwd, 0);
+		set_var("PWD", newpwd, 0);
+		set_var("OLDPWD", oldpwd, 0);
 	}
 	else
 		cd_errors(path);

@@ -53,13 +53,14 @@ int		reset_env(void);
 **cd.c
 */
 int		cd(char **args);
+void	set_pwd(char *path, char *oldpwd);
 
 /*
 **input.c
 */
 char	*get_input(void);
-void	debug_specials(char **input);
-void	delete_quotes(char **input);
+void	debug_home(char **input);
+void	debug_eof(char	**input);
 
 /*
 **signal.c

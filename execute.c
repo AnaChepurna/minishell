@@ -94,8 +94,9 @@ void		execute(char *command)
 	i = 0;
 	while (args[i])
 	{
-		debug_specials(&(args[i]));
+		debug_home(&(args[i]));
 		delete_quotes(&(args[i]));
+		debug_eof(&(args[i]));
 		i++;
 	}
 	if (!(exec_builtin(args) || exec_bin(args)))

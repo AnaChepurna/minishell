@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void		debug_specials(char **input)
+void		debug_home(char **input)
 {
 	char	*ptr;
 	char	*src;
@@ -21,36 +21,24 @@ void		debug_specials(char **input)
 	}
 }
 
-void		delete_quotes(char **input)
+void		debug_eof(char	**input)
 {
-	char	c;
-	char	*ptr[2];
+	char	*ptr;
 	char	*res;
-	size_t	j;
 	size_t	i;
 
-	ptr[0] = ft_strchr(*input, '"');
-	ptr[1] = ft_strchr(*input, '\'');
-	if (!ptr[0] && !ptr[1])
-		return ;
-	else if (ptr[0] && ptr[1])
-		c = ptr[0] < ptr[1] ? '"' : '\'';
-	else if (ptr[0])
-		c = '"';
-	else if (ptr[1])
-		c = '\'';
-	if ((res = ft_strnew(ft_strlen(*input) - 2)))
+	if ((ptr = ft_strchr(*input, '$')) && ptr[1] && !(IS_SPACE(ptr[1])))
 	{
-		i = 0;
-		j = 0;
-		while ((*input)[j])
+		while (ptr[i] && !(IS_SPACE(ptr[i])))
+			i++;
+		if ((res = ft_strnew(ft_strlen(*input) - i)))
 		{
-			if ((*input)[j] != c)
-				res[i++] = (*input)[j];
-			j++;
+			ft_strncpy(res, *input, ptr - *input);
+			ft_strcpy(res + (ptr - *input), ptr + i);
+			free(*input);
+			*input = res;
+			debug_eof(input);
 		}
-		free(*input);
-		*input = res;
 	}
 }
 

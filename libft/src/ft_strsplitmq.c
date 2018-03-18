@@ -16,7 +16,7 @@ static int		split_len(const char *str, const char *mask)
 	int		i;
 	char	c;
 
-	i = 0;
+	i = -1;
 	while (str[++i] && !depend_mask(str[i], mask))
 		{
 			if (str[i] == '"' || str[i] == '\'')
@@ -26,7 +26,7 @@ static int		split_len(const char *str, const char *mask)
 				while (str[i] && str[i] != c)
 					i++;
 			}
-			if (str[i])
+			else if (str[i])
 				i++;
 		}
 	return (i);

@@ -21,15 +21,17 @@ int		unset_var(char *var_name, int save)
 	t_list	*lst;
 	size_t	len;
 	int		i;
+	char	*buf;
 
 	if (!var_name)
 		print_error("unsetenv", "too few arguments\n");
 	lst = g_env;
-	len = ft_strlen(var_name);
+	buf = ft_strjoin(var_name, "=");
+	len = ft_strlen(buf);
 	i = 0;
 	while (lst)
 	{
-		if (ft_strnequ(var_name, (char *)lst->content, len))
+		if (ft_strnequ(buf, (char *)lst->content, len))
 		{
 			lst = ft_lstrm(&g_env, i);
 			if (save)
@@ -39,6 +41,7 @@ int		unset_var(char *var_name, int save)
 		i++;
 		lst = lst->next;
 	}
+	free(buf);
 	return (1);
 }
 
@@ -95,7 +98,12 @@ int			undo_var(char *var_name)
 
 int			reset_env(void)
 {
+	char	*currentpwd;
+	char	buf[512];
+
 	clear_global();
 	init_global();
+	currentpwd = getcwd(buf, 512);
+	set_pwd(currentpwd, get_var("PWD="));
 	return (1);
 }
