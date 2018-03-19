@@ -1,3 +1,6 @@
+CC = gcc
+CFLAG = -Wall -Wextra -Werror
+NAME = minishell
 SRC = 	main.c \
 		output.c \
 		execute.c \
@@ -6,7 +9,26 @@ SRC = 	main.c \
 		input.c \
 		signal.c \
 		garland.c
+OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a
 
-all:
-	gcc -g -Wall -Wextra -Werror $(SRC) $(LIB)
+all: $(NAME)
+
+$(NAME): $(LIB) $(OBJ)
+	$(CC) $(OBJ) libft/libft.a -o $(NAME)
+
+%.o: %.c
+	$(CC) -c $(CFLAG) $<
+
+clean:
+	rm -rf $(OBJ)
+	make -C libft/ clean
+
+fclean: clean
+	rm -rf $(NAME)
+	make -C libft/ fclean
+
+$(DIR):
+	make -C libft
+
+re: fclean all
