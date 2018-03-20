@@ -93,7 +93,11 @@ static int	exec_builtin(char **args)
 	if (ft_strequ(args[0], "setenv"))
 		return (set_var(args[1], args[2], 1));
 	if (ft_strequ(args[0], "unsetenv"))
-		return (unset_var(args[1],  1));
+	{
+		while (*(++args))
+			unset_var(*args, 1);
+		return (1);
+	}
 	if (ft_strequ(args[0], "undoenv"))
 		return (undo_var(args[1]));
 	if (ft_strequ(args[0], "resetenv"))

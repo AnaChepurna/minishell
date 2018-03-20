@@ -16,17 +16,44 @@ static void		cd_errors(char	*path)
 
 void			set_pwd(char *path, char *oldpwd)
 {
-	char	*newpwd;
-	char	buf[512];
+	//char		*newpwd;
+	//char		buf[512];
 
 	if (!chdir(path))
 	{
-		newpwd = getcwd(buf, 512);
-		set_var("PWD", newpwd, 0);
+		//newpwd = getcwd(buf, 512);
+		set_var("PWD", path, 0);
 		set_var("OLDPWD", oldpwd, 0);
 	}
 	else
 		cd_errors(path);
+}
+
+static char			*format_path(char **pwd)
+{
+	char	*ptr;
+	char	*line;
+	int		minus;
+
+	minus = 0;
+	if ((ptr = ft_strstr(*pwd, "../")) ||
+			((ptr = ft_strstr(*pwd, "/..")) && !ptr[3] && !ptr != *pwd))
+	{
+		minus = 4;
+		while (--ptr > *pwd && *(ptr - 1) != '/')
+			minus++;
+	}
+	else if ((ptr = ft_strstr(*pwd, "./")) ||
+			((ptr = ft_strstr(*pwd, "/.")) && !ptr[2]) != *pwd)
+		minus = 2;
+	else if ((ptr = ft_strstr(*pwd, "//")) || ((ptr = ft_strrchr(*pwd, '/')) && !ptr[1] && ptr != *pwd))
+		minus = 1;
+	if (minus && (line = ft_strnew(ft_strlen(*pwd) - minus)))
+	{
+		ft_strncpy(line, *pwd, ptr - *pwd);
+		ft_strcpy(line + (ptr - *pwd), ptr + minus);
+		format_path(pwd);
+	}
 }
 
 static char		*get_pwd(char *path, char *oldpwd)
@@ -68,6 +95,7 @@ int				cd(char **args)
 	path = get_pwd(*args, oldpwd);
 	if (path)
 	{
+		format_path(&path);
 		set_pwd(path, oldpwd);
 		free(path);
 	}

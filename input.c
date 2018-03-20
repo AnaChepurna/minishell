@@ -29,6 +29,7 @@ void		debug_eof(char	**input)
 
 	if ((ptr = ft_strchr(*input, '$')) && ptr[0] && ptr[1] && !(IS_SPACE(ptr[1])))
 	{
+		i = 0;
 		while (ptr[i] && !(IS_SPACE(ptr[i])))
 			i++;
 		if ((res = ft_strnew(ft_strlen(*input) - i + 1)))

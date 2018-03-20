@@ -28,7 +28,7 @@ fclean: clean
 	rm -rf $(NAME)
 	make -C libft/ fclean
 
-$(DIR):
+$(LIB):
 	make -C libft
 
 re: fclean all

@@ -52,7 +52,7 @@ int			set_var(char *var_name, char *value, int save)
 
 	if (!var_name)
 	{
-		print_error("setenv", "too few arguments\n");
+		print_env();
 		return (1);
 	}
 	if (!value)
