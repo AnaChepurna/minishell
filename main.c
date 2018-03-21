@@ -18,17 +18,14 @@ int			exit_minishell(char **args)
 {
 	clear_global();
 	if (*args && *(args + 1))
-	{
 		print_error("exit", "too many arguments\n");
-		g_status = 0;
-	}
 	else
 	{
 		if (*args)
 		{
+			if (!ft_isdigit(**args))
+				print_error("exit", "numeric argument required\n");
 			g_status = ft_atoi(*args);
-			if (!g_status)
-				g_status = 1;
 		}
 		exit(g_status);
 	}

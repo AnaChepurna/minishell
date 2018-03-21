@@ -27,7 +27,7 @@ void		debug_eof(char	**input)
 	char	*res;
 	size_t	i;
 
-	if ((ptr = ft_strchr(*input, '$')) && ptr[0] && ptr[1] && !(IS_SPACE(ptr[1])))
+	if ((ptr = ft_strchr(*input, '$')) && ptr[1] && !(IS_SPACE(ptr[1]) && ptr[1] != '?'))
 	{
 		i = 0;
 		while (ptr[i] && !(IS_SPACE(ptr[i])))

@@ -54,6 +54,21 @@ void	print_error(char *arg, char *msg)
 	g_status = 1;
 }
 
+void	print_arg(char *str)
+{
+	char *ptr;
+
+	if ((ptr = ft_strstr(str, "$?")))
+	{
+		while (str < ptr)
+			ft_putchar(*(str++));
+		ft_putnbr(g_status);
+		ft_putstr(str + 2);
+	}
+	else
+		ft_putstr(str);
+}
+
 int		echo(char **args)
 {
 	int		n;
@@ -67,7 +82,7 @@ int		echo(char **args)
 			args++;
 		while (*args)
 		{
-			ft_putstr(*args);
+			print_arg(*args);
 			if (*(args + 1))
 				ft_putstr(" ");
 			args++;
