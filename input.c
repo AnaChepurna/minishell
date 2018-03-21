@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/21 21:47:35 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/21 21:47:37 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void		debug_home(char **input)
@@ -7,7 +19,7 @@ void		debug_home(char **input)
 	char	*res;
 	size_t	len;
 
-	if ((ptr = ft_strchr(*input, '~')) == *input) 
+	if ((ptr = ft_strchr(*input, '~')) == *input)
 	{
 		src = get_var(g_env, "HOME=");
 		len = ft_strlen(src);
@@ -21,14 +33,16 @@ void		debug_home(char **input)
 	}
 }
 
-void		debug_eof(char	**input)
+void		debug_eof(char **input)
 {
 	char	*ptr;
 	char	*res;
 	size_t	i;
 
-	if ((ptr = ft_strchr(*input, '$')) && ptr[1] && !(IS_SPACE(ptr[1]) && ptr[1] != '?'))
+	if ((ptr = ft_strchr(*input, '$')) &&
+		ptr[1] && !(IS_SPACE(ptr[1])) && ptr[1] != '?')
 	{
+		ft_putendl(*input);
 		i = 0;
 		while (ptr[i] && !(IS_SPACE(ptr[i])))
 			i++;

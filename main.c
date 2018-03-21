@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/21 21:47:45 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/21 21:47:47 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void			clear_global(void)
@@ -14,9 +26,8 @@ void			init_global(void)
 	g_undo = NULL;
 }
 
-int			exit_minishell(char **args)
+int				exit_minishell(char **args)
 {
-	clear_global();
 	if (*args && *(args + 1))
 		print_error("exit", "too many arguments\n");
 	else
@@ -25,8 +36,10 @@ int			exit_minishell(char **args)
 		{
 			if (!ft_isdigit(**args))
 				print_error("exit", "numeric argument required\n");
-			g_status = ft_atoi(*args);
+			else
+				g_status = ft_atoi(*args);
 		}
+		clear_global();
 		exit(g_status);
 	}
 	return (1);
@@ -53,7 +66,7 @@ int				main(int c, char **v, char **e)
 	g_start_env = e;
 	g_status = 0;
 	init_global();
-	while(1)
+	while (1)
 	{
 		print_prompt();
 		signal(SIGINT, sigint_handler);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/21 21:47:08 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/21 21:47:10 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static t_list		*copy_lst(t_list *lst)
@@ -5,7 +17,7 @@ static t_list		*copy_lst(t_list *lst)
 	t_list	*new;
 
 	new = ft_lstnew(lst->content, lst->content_size);
-	return(new);
+	return (new);
 }
 
 void				print_list_content(t_list *lst)

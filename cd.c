@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/21 21:46:42 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/21 21:46:44 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void			set_pwd(char *path, char *oldpwd, int p)
+void				set_pwd(char *path, char *oldpwd, int p)
 {
 	char	*error_name;
 	char	*newpwd;
@@ -14,7 +26,7 @@ void			set_pwd(char *path, char *oldpwd, int p)
 	}
 	else
 	{
-		error_name = ft_strjoin ("cd: ", path);
+		error_name = ft_strjoin("cd: ", path);
 		if (access(path, F_OK) == -1)
 			print_error(error_name, "no such file or directory\n");
 		else if (access(path, R_OK) == -1)
@@ -60,7 +72,7 @@ static void			format_path(char **pwd)
 	}
 }
 
-static char		*get_pwd(char *path, char *oldpwd)
+static char			*get_pwd(char *path, char *oldpwd)
 {
 	char	*buf;
 	char	*newpwd;
@@ -89,7 +101,7 @@ static char		*get_pwd(char *path, char *oldpwd)
 	return (newpwd);
 }
 
-int				cd(char **args)
+int					cd(char **args)
 {
 	char	*path;
 	char	*oldpwd;
