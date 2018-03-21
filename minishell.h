@@ -20,11 +20,15 @@
 t_list	*g_env;
 t_list	*g_undo;
 char	**g_start_env;
+int		g_status;
 
 /*
 **execute.c
 */
 void	execute(char *command);
+int		is_bin(char *path, int	check_dir);
+int		run(char *path, char **args, t_list *local_env);
+int		exec_bin(char **args, t_list *env);
 
 /*
 **output.c
@@ -32,18 +36,18 @@ void	execute(char *command);
 void	print_prompt(void);
 void	print_error(char *arg, char *msg);
 int		echo(char **args);
-int		print_env(void);
 
 /*
 **main.c
 */
 void	clear_global(void);
 void	init_global(void);
+int		exit_minishell(char **args);
 
 /*
 **env.c
 */
-char	*get_var(char *var_name);
+char	*get_var(t_list *env, char *var_name);
 int		set_var(char *var_name, char *value, int save);
 int		unset_var(char *var_name, int save);
 int		undo_var(char *var_name);
@@ -53,7 +57,7 @@ int		reset_env(void);
 **cd.c
 */
 int		cd(char **args);
-void	set_pwd(char *path, char *oldpwd);
+void	set_pwd(char *path, char *oldpwd, int p);
 
 /*
 **input.c
@@ -72,6 +76,11 @@ void	sigint_fork_handler(int signo);
 **garland.c
 */
 char	*get_color(void);
-int		help(void);
+
+/*
+**env2.c
+*/
+int		env(char **args);
+void	print_list_content(t_list *lst);
 
 #endif

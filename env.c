@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-char	*get_var(char *var_name)
+char	*get_var(t_list *env, char *var_name)
 {
 	t_list	*lst;
 	size_t	len;
 
-	lst = g_env;
+	lst = env;
 	len = ft_strlen(var_name);
 	while (lst)
 	{
@@ -52,7 +52,7 @@ int			set_var(char *var_name, char *value, int save)
 
 	if (!var_name)
 	{
-		print_env();
+		ft_lstiter(g_env, &print_list_content);
 		return (1);
 	}
 	if (!value)

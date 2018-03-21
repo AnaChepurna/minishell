@@ -8,10 +8,10 @@ char	*get_pwd(void)
 	char	*res;
 	size_t	len;
 
-	if (ft_strequ(get_var("PROMPT_PWD="), "on"))
+	if (ft_strequ(get_var(g_env, "PROMPT_PWD="), "on"))
 	{
 		pwd = getcwd(buf, 512);
-		home = get_var("HOME=");
+		home = get_var(g_env, "HOME=");
 		len = ft_strlen(home);
 		if (ft_strnequ(pwd, home, len))
 		{
@@ -40,7 +40,7 @@ void	print_prompt(void)
 	if (pwd)
 	{
 		ft_putstr(":");
-		ft_putstr (pwd);
+		ft_putstr(pwd);
 		free(pwd);
 	}
 	ft_putstr("> ");
@@ -51,6 +51,7 @@ void	print_error(char *arg, char *msg)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
+	g_status = 1;
 }
 
 int		echo(char **args)
@@ -73,20 +74,6 @@ int		echo(char **args)
 		}
 		if (!n)
 			ft_putstr("\n");
-	}
-	return (1);
-}
-
-
-int		print_env(void)
-{
-	t_list	*lst;
-
-	lst = g_env;
-	while (lst)
-	{
-		ft_putendl((char *)lst->content);
-		lst = lst->next;
 	}
 	return (1);
 }

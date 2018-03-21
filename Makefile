@@ -8,7 +8,8 @@ SRC = 	main.c \
 		cd.c \
 		input.c \
 		signal.c \
-		garland.c
+		garland.c \
+		env2.c
 OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a
 

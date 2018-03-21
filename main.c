@@ -14,6 +14,27 @@ void			init_global(void)
 	g_undo = NULL;
 }
 
+int			exit_minishell(char **args)
+{
+	clear_global();
+	if (*args && *(args + 1))
+	{
+		print_error("exit", "too many arguments\n");
+		g_status = 0;
+	}
+	else
+	{
+		if (*args)
+		{
+			g_status = ft_atoi(*args);
+			if (!g_status)
+				g_status = 1;
+		}
+		exit(g_status);
+	}
+	return (1);
+}
+
 static void		handle_commands(char *input)
 {
 	char	**commands;
@@ -33,6 +54,7 @@ int				main(int c, char **v, char **e)
 	(void)c;
 	(void)v;
 	g_start_env = e;
+	g_status = 0;
 	init_global();
 	while(1)
 	{

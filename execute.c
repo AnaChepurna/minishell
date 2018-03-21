@@ -1,26 +1,26 @@
 #include "minishell.h"
 
-static int	run(char *path, char **args)
+int		run(char *path, char **args, t_list *local_env)
 {
 	pid_t	pid;
 	char	**env;
 	int		status;
 
 	status = 1;
-	env = ft_lsttoarr(g_env);
+	env = ft_lsttoarr(local_env);
 	if (!(pid = fork()))
-	{
 		execve(path, args, env);
-	}
 	else if (pid < 0)
 		status = 0;
 	signal(SIGINT, sigint_fork_handler);
 	wait(&pid);
+	if (pid)
+		g_status = pid >> 8;
 	ft_arrfree(&env);
 	return (status);
 }
 
-static int	is_bin(char *path, int	check_dir)
+int		is_bin(char *path, int	check_dir)
 {
 	struct stat st;
 	char		*dir;
@@ -48,7 +48,7 @@ static int	is_bin(char *path, int	check_dir)
 	return (isdir ? 2 : 0);
 }
 
-static int	exec_bin(char **args)
+int		exec_bin(char **args, t_list *env)
 {
 	char		**paths;
 	char		*name;
@@ -58,7 +58,7 @@ static int	exec_bin(char **args)
 	name = ft_strdup(*args);
 	if (!(status = is_bin(name, 1)))
 	{
-		if ((paths = ft_strsplit(get_var("PATH="), ':')))
+		if ((paths = ft_strsplit(get_var(env, "PATH="), ':')))
 		{
 			i = -1;
 			while (paths[++i])
@@ -72,7 +72,7 @@ static int	exec_bin(char **args)
 		}
 	}
 	if (status == 1)
-		status = run(name, args);
+		status = run(name, args, env);
 	free(name);
 	return (status);
 }
@@ -80,12 +80,9 @@ static int	exec_bin(char **args)
 static int	exec_builtin(char **args)
 {
 	if (ft_strequ(args[0], "exit"))
-	{
-		clear_global();
-		exit(1);
-	}
+		return (exit_minishell(args + 1));
 	if (ft_strequ(args[0], "env"))
-		return (print_env());
+		return (env(args + 1));
 	if (ft_strequ(args[0], "echo"))
 		return (echo(args + 1));
 	if (ft_strequ(args[0], "cd"))
@@ -102,8 +99,6 @@ static int	exec_builtin(char **args)
 		return (undo_var(args[1]));
 	if (ft_strequ(args[0], "resetenv"))
 		return (reset_env());
-	if (ft_strequ(args[0], "help"))
-		return (help());
 	return (0);
 }
 
@@ -121,7 +116,7 @@ void		execute(char *command)
 		debug_eof(&(args[i]));
 		i++;
 	}
-	if (!(exec_builtin(args) || exec_bin(args)))
+	if (!(exec_builtin(args) || exec_bin(args, g_env)))
 		print_error(args[0], "command not found\n");
 	ft_arrfree(&args);
 }

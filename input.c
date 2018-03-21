@@ -9,7 +9,7 @@ void		debug_home(char **input)
 
 	if ((ptr = ft_strchr(*input, '~')) == *input) 
 	{
-		src = get_var("HOME=");
+		src = get_var(g_env, "HOME=");
 		len = ft_strlen(src);
 		if ((res = ft_strnew(len + ft_strlen(*input + 1))))
 		{
