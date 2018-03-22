@@ -37,9 +37,22 @@ void				set_pwd(char *path, char *oldpwd, int p)
 	}
 }
 
-static void			format_path(char **pwd)
+static void			compile_path(char **pwd, char *ptr, int minus)
 {
 	char	*line;
+
+	if (minus && (line = ft_strnew(ft_strlen(*pwd) - minus)))
+	{
+		ft_strncpy(line, *pwd, ptr - *pwd);
+		ft_strcpy(line + (ptr - *pwd), ptr + minus);
+		free(*pwd);
+		*pwd = line;
+		format_path(pwd);
+	}
+}
+
+void				format_path(char **pwd)
+{
 	char	*ptr;
 	int		minus;
 
@@ -62,14 +75,7 @@ static void			format_path(char **pwd)
 	else if ((ptr = ft_strstr(*pwd, "//")) ||
 			((ptr = ft_strrchr(*pwd, '/')) && !ptr[1] && ptr != *pwd))
 		minus = 1;
-	if (minus && (line = ft_strnew(ft_strlen(*pwd) - minus)))
-	{
-		ft_strncpy(line, *pwd, ptr - *pwd);
-		ft_strcpy(line + (ptr - *pwd), ptr + minus);
-		free(*pwd);
-		*pwd = line;
-		format_path(pwd);
-	}
+	compile_path(pwd, ptr, minus);
 }
 
 static char			*get_pwd(char *path, char *oldpwd)

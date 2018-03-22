@@ -116,7 +116,7 @@ static int	exec_builtin(char **args)
 	}
 	if (ft_strequ(args[0], "undoenv"))
 		return (undo_var(args[1]));
-	if (ft_strequ(args[0], "resetenv"))
+	if (ft_strequ(args[0], "reset"))
 		return (reset_env());
 	return (0);
 }
@@ -127,6 +127,7 @@ void		execute(char *command)
 	size_t	i;
 
 	args = ft_strsplitmq(command, " \t");
+	g_status = 0;
 	i = 0;
 	while (args[i])
 	{
@@ -140,5 +141,6 @@ void		execute(char *command)
 		if (!(exec_builtin(args) || exec_bin(args, g_env)))
 			print_error(args[0], "command not found\n");
 	}
+	g_ret_status = g_status;
 	ft_arrfree(&args);
 }

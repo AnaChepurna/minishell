@@ -74,7 +74,7 @@ void	print_arg(char *str)
 	{
 		while (str < ptr)
 			ft_putchar(*(str++));
-		ft_putnbr(g_status);
+		ft_putnbr(g_ret_status);
 		ft_putstr(str + 2);
 	}
 	else

@@ -33,6 +33,7 @@ t_list	*g_env;
 t_list	*g_undo;
 char	**g_start_env;
 int		g_status;
+int		g_ret_status;
 
 /*
 **execute.c
@@ -70,6 +71,7 @@ int		reset_env(void);
 */
 int		cd(char **args);
 void	set_pwd(char *path, char *oldpwd, int p);
+void	format_path(char **pwd);
 
 /*
 **input.c

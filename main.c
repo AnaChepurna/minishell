@@ -37,10 +37,10 @@ int				exit_minishell(char **args)
 			if (!ft_isdigit(**args))
 				print_error("exit", "numeric argument required\n");
 			else
-				g_status = ft_atoi(*args);
+				g_ret_status = ft_atoi(*args);
 		}
 		clear_global();
-		exit(g_status);
+		exit(g_ret_status);
 	}
 	return (1);
 }
@@ -64,7 +64,6 @@ int				main(int c, char **v, char **e)
 	(void)c;
 	(void)v;
 	g_start_env = e;
-	g_status = 0;
 	init_global();
 	while (1)
 	{
