@@ -18,6 +18,7 @@ void	sigint_handler(int signo)
 	{
 		ft_putstr("\n");
 		print_prompt();
+		g_ret_status = 130;
 		signal(SIGINT, sigint_handler);
 	}
 }
@@ -27,6 +28,7 @@ void	sigint_fork_handler(int signo)
 	if (signo == SIGINT)
 	{
 		ft_putstr("\n");
+		g_ret_status = 130;
 		signal(SIGINT, sigint_fork_handler);
 	}
 }

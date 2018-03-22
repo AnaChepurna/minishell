@@ -23,6 +23,7 @@ void		debug_home(char **input)
 	{
 		src = get_var(g_env, "HOME=");
 		len = ft_strlen(src);
+
 		if ((res = ft_strnew(len + ft_strlen(*input + 1))))
 		{
 			ft_strcpy(res, src);
@@ -32,6 +33,46 @@ void		debug_home(char **input)
 		}
 	}
 }
+
+int			count_word(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && !IS_SPACE(str[i]))
+		i++;
+	return (i);
+}
+
+
+void		debug_vars(char	**input)
+{
+	char	*ptr;
+	char	*buf;
+	char	*res;
+	int		i;
+
+	i = -1;
+	while (*input[++i])
+	{
+		if (*input[i] == '$')
+		{
+			ptr = ft_strsub(*input, i, count_word(*input + i));
+			buf = ft_strjoin(ptr, "=");
+			free(ptr);
+			if ((ptr = get_var(g_env, buf)) &&
+				(res = ft_strnew(ft_strlen(*input) + ft_strlen(ptr))))
+			{
+				ft_strncpy(res, *input, i - 1);
+				ft_strcpy(res + i - 1, ptr);
+				ft_strcpy(res + i - 1 + ft_strlen(ptr), *input + i);
+				free(*input);
+				*input = res;
+				i += count_word(*input + i); 
+			}
+		}
+	}
+} 
 
 void		debug_eof(char **input)
 {
@@ -101,6 +142,8 @@ static int	get_next_line_handler(char **str, int quote)
 		clear_global();
 		exit(1);
 	}
+	if (ft_strchr(*str, 3))
+		return (0);
 	if (ret == -1)
 	{
 		print_error("minishell", "input problem. The process will be ended\n");

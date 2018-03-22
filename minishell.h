@@ -97,4 +97,6 @@ char	*get_color(void);
 int		env(char **args);
 void	print_list_content(t_list *lst);
 
+void		debug_vars(char	**input);
+
 #endif

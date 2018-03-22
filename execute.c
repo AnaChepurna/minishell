@@ -133,6 +133,7 @@ void		execute(char *command)
 	{
 		debug_home(&(args[i]));
 		delete_quotes(&(args[i]));
+		debug_vars(&(args[i]));
 		debug_eof(&(args[i]));
 		i++;
 	}
