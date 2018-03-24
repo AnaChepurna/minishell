@@ -26,44 +26,32 @@ static void		check_size(char	*c, char **str)
 	}
 }
 
-void			back_carriage(int len, int back, int width)
+void			back_carriage(char *str, int back)
 {
-	int		lost;
+	int		index;
+	int		len;
 
-	lost = len % width;
-	if (back > lost)
-		ft_putstr("[A");
-	while (back - lost > width)
+	len = ft_strlen(str);
+	index = len - back;
+	while (len > index)
 	{
-		ft_putstr("[A");
-		back -= width;
-	}
-	if (back < len)
-	{
-		while (back--)
-			ft_putstr("[D");
-	}
-	else
-	{
-		ft_putstr("\r");
-		back = width + len - back;
-		while (back--)
-			ft_putstr("[C");
+		handle_back(&len, str);
 	}
 }
 
-void			print_str(char *str, int back, int add)
+void			print_str(char *str, int bback, int pback, int add)
 {
 	int		width;
 	int		i;
 	int		len;
 
 	width = get_width();
-	len = ft_strlen(str) - add;
-	i = back;
-	while ((len - i) / width < len / width)
+	len = ft_wstrlen(str) - add;
+	if (len % width == 0 && add < 0 && bback)
+		ft_putstr("[A");
+	while ((len - pback) / width < len / width)
 	{
-		i -= width;
+		pback -= width;
 		ft_putstr("[B");
 	}
 	i = -1;
@@ -77,7 +65,7 @@ void			print_str(char *str, int back, int add)
 	}
 	ft_putstr("\r");
 	ft_putstr(str);
-	back_carriage(len + add, back, width);
+	back_carriage(str, bback);
 }
 
 void			del_str(char *c, int *i, char **str)
@@ -91,10 +79,12 @@ void			del_str(char *c, int *i, char **str)
 	else
 		buf = ft_strdup(*str + *i);
 	if (!mod && *i)
+	{
 		(*i)--;
+	}
 	ft_strcpy(*str + *i, buf);
 	(*str)[*i + ft_strlen(buf)] = '\0';
-	print_str(*str, ft_strlen(buf), -1);
+	print_str(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
 	free(buf);
 }
 
@@ -112,7 +102,7 @@ void			input_str(char *c, int *i, char **str)
 		*i += ft_strlen(c);
 		ft_strcpy(*str + *i, buf);
 		(*str)[*i + ft_strlen(buf)] = '\0';
-		print_str(*str, ft_strlen(buf), ft_strlen(c));
+		print_str(*str, ft_strlen(buf), ft_wstrlen(buf), ft_wstrlen(c));
 		free(buf);
 	}
 }

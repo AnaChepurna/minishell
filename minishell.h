@@ -130,5 +130,7 @@ int		check_dir(char *path, char **res_dir);
 **control.c
 */
 int		handle_back_forward(char *c, int *i, char *str);
+void	handle_back(int *i, char *str);
+void	handle_forward(int *i, char *str);
 
 #endif

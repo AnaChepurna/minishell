@@ -1,13 +1,15 @@
 #include "minishell.h"
 
-static void		handle_back(int *i, char *str)
+void			handle_back(int *i, char *str)
 {
 	int		width;
+	int		real_i;
 
 	width = get_width();
+	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i)
 	{
-		if (*i % width == 0)
+		if (real_i % width == 0 && real_i != ft_wstrlen(str))
 		{
 			ft_putstr("[A");
 			while (width--)
@@ -21,27 +23,32 @@ static void		handle_back(int *i, char *str)
 	}
 }
 
-static void		handle_forward(int *i, char *str)
+void			handle_forward(int *i, char *str)
 {
 	int		width;
-	int		len;
+	char	c;
+	int		real_i;
 
 	width = get_width();
-	len = ft_strlen(str);
-	if (*i < len)
+	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
+	if (*i >= ft_strlen(str))
+		return ;
+	if (real_i % width == width - 1)
 	{
-		if (*i % width == width - 1)
-		{
-			ft_putstr("[B");
-			while (width--)
-				ft_putstr("[D");
-		}
-		else
-			ft_putstr("[C");
-		while (str[*i] < 0 && !(str[*i] & 64))
-			(*i)++;
-		(*i)++;
+		ft_putstr("[B");
+		while (width--)
+			ft_putstr("[D");
 	}
+	else
+		ft_putstr("[C");
+	if ((c = str[*i]) < 0)
+		while (c < 0)
+		{
+			c = c << 1;
+			(*i)++;
+		}
+	else
+		(*i)++;
 }
 
 int				handle_back_forward(char *c, int *i, char *str)
