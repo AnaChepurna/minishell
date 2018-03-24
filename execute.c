@@ -41,25 +41,11 @@ int			run(char *path, char **args, t_list *local_env)
 
 int			is_bin(char *path, int check_dir)
 {
-	struct stat st;
-	char		*dir;
-	int			i;
 	int			isdir;
 
-	i = (int)ft_strlen(path);
 	isdir = 0;
 	if (check_dir)
-	{
-		while (i >= 0 && path[i] != '/')
-			i--;
-		if (i >= 0)
-		{
-			dir = ft_strsub(path, 0, i);
-			if (!lstat(dir, &st) && st.st_mode & S_IFDIR)
-				isdir = 1;
-			free(dir);
-		}
-	}
+		isdir = check_dir(path, NULL);
 	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
 		return (1);
 	if (isdir)

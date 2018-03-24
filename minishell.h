@@ -19,6 +19,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <termios.h>
+# include <dirent.h>
+
+# include <stdio.h>
 
 # define RED		"\x1B[31m"
 # define GREEN		"\x1B[32m"
@@ -79,6 +83,7 @@ void	format_path(char **pwd);
 char	*get_input(void);
 void	debug_home(char **input);
 void	debug_eof(char	**input);
+int		check_quotes(char *str);
 
 /*
 **signal.c
@@ -98,5 +103,26 @@ int		env(char **args);
 void	print_list_content(t_list *lst);
 
 void		debug_vars(char	**input);
+
+/*
+**parse.c
+*/
+void	input_str(char *c, int *i, char **str);
+int		handle_back_formard(char *c, int *i, size_t len);
+int		handle_controls(char *c, int *i, char **str);
+
+/*
+**terminal.c
+*/
+
+/*
+**autocomplete.c
+*/
+void			autocomplete(int *i, char **str);
+
+/*
+**utils.c
+*/
+int				check_dir(char *path, char **res_dir);
 
 #endif

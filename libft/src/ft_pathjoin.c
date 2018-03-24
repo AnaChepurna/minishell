@@ -20,6 +20,8 @@ char			*ft_pathjoin(char *path, char *name)
 
 	if (!path)
 		return (ft_strdup(name));
+	if (!name)
+		return (ft_strdup(path));
 	len = ft_strlen(path);
 	while (path[--len] == '/')
 		path[len] = '\0';

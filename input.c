@@ -44,7 +44,6 @@ int			count_word(char *str)
 	return (i);
 }
 
-
 void		debug_vars(char	**input)
 {
 	char	*ptr;
@@ -58,9 +57,7 @@ void		debug_vars(char	**input)
 		if (*input[i] == '$')
 		{
 			ptr = ft_strsub(*input, i, count_word(*input + i));
-			buf = ft_strjoin(ptr, "=");
-			free(ptr);
-			if ((ptr = get_var(g_env, buf)) &&
+			if ((ptr = get_var(g_env, ptr)) &&
 				(res = ft_strnew(ft_strlen(*input) + ft_strlen(ptr))))
 			{
 				ft_strncpy(res, *input, i - 1);
@@ -69,6 +66,7 @@ void		debug_vars(char	**input)
 				free(*input);
 				*input = res;
 				i += count_word(*input + i); 
+				free(ptr);
 			}
 		}
 	}
@@ -98,7 +96,7 @@ void		debug_eof(char **input)
 	}
 }
 
-static int	check_quotes(char *str)
+int			check_quotes(char *str)
 {
 	int		res;
 	char	c;
