@@ -28,6 +28,11 @@ void			init_global(void)
 
 int				exit_minishell(char **args)
 {
+	if (!args)
+	{
+		clear_global();
+		exit(g_ret_status);
+	}
 	if (*args && *(args + 1))
 		print_error("exit", "too many arguments\n");
 	else

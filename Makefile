@@ -21,7 +21,8 @@ SRC = 	main.c \
 		input.c \
 		signal.c \
 		garland.c \
-		env2.c
+		env2.c \
+		utils.c
 OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a
 

@@ -47,7 +47,6 @@ int			count_word(char *str)
 void		debug_vars(char	**input)
 {
 	char	*ptr;
-	char	*buf;
 	char	*res;
 	int		i;
 

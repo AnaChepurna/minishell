@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <dirent.h>
+# include <sys/ioctl.h>
 
 # include <stdio.h>
 
@@ -108,21 +109,26 @@ void		debug_vars(char	**input);
 **parse.c
 */
 void	input_str(char *c, int *i, char **str);
-int		handle_back_formard(char *c, int *i, size_t len);
 int		handle_controls(char *c, int *i, char **str);
 
 /*
 **terminal.c
 */
+int		get_width(void);
 
 /*
 **autocomplete.c
 */
-void			autocomplete(int *i, char **str);
+void	autocomplete(int *i, char **str);
 
 /*
 **utils.c
 */
-int				check_dir(char *path, char **res_dir);
+int		check_dir(char *path, char **res_dir);
+
+/*
+**control.c
+*/
+int		handle_back_forward(char *c, int *i, int len);
 
 #endif

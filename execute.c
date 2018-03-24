@@ -39,12 +39,13 @@ int			run(char *path, char **args, t_list *local_env)
 	return (status);
 }
 
-int			is_bin(char *path, int check_dir)
+int			is_bin(char *path, int check)
 {
 	int			isdir;
+	struct stat	st;
 
 	isdir = 0;
-	if (check_dir)
+	if (check)
 		isdir = check_dir(path, NULL);
 	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
 		return (1);
@@ -119,7 +120,7 @@ void		execute(char *command)
 	{
 		debug_home(&(args[i]));
 		delete_quotes(&(args[i]));
-		debug_vars(&(args[i]));
+		//debug_vars(&(args[i]));
 		debug_eof(&(args[i]));
 		i++;
 	}
