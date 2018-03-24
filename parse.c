@@ -33,7 +33,7 @@ void			back_carriage(int len, int back, int width)
 	lost = len % width;
 	if (back > lost)
 		ft_putstr("[A");
-	while (back > width)
+	while (back - lost > width)
 	{
 		ft_putstr("[A");
 		back -= width;

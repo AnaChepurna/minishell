@@ -39,7 +39,7 @@ int		main(int argc, char const *argv[])
 		read(0, c, 4);
 		if (ft_strequ(c, "\n"))
 			break ;
-		if (!handle_back_forward(c, &i, ft_strlen(content))
+		if (!handle_back_forward(c, &i, content)
 			&& !handle_controls(c, &i, &content))
 			input_str(c, &i, &content);
 	}

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void		handle_back(int *i)
+static void		handle_back(int *i, char *str)
 {
 	int		width;
 
@@ -16,14 +16,18 @@ static void		handle_back(int *i)
 		else
 			ft_putstr("[D");
 		(*i)--;
+		while (str[*i] < 0 && !(str[*i] & 64))
+			(*i)--;
 	}
 }
 
-static void		handle_forward(int *i, int len)
+static void		handle_forward(int *i, char *str)
 {
 	int		width;
+	int		len;
 
 	width = get_width();
+	len = ft_strlen(str);
 	if (*i < len)
 	{
 		if (*i % width == width - 1)
@@ -34,20 +38,22 @@ static void		handle_forward(int *i, int len)
 		}
 		else
 			ft_putstr("[C");
+		while (str[*i] < 0 && !(str[*i] & 64))
+			(*i)++;
 		(*i)++;
 	}
 }
 
-int				handle_back_forward(char *c, int *i, int len)
+int				handle_back_forward(char *c, int *i, char *str)
 {
 	if (ft_strequ(c, "[D"))
 	{
-		handle_back(i);
+		handle_back(i, str);
 		return (1);
 	}
 	if (ft_strequ(c, "[C"))
 	{
-		handle_forward(i, len);
+		handle_forward(i, str);
 		return (1);
 	}
 	return (0);
