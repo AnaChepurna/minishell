@@ -21,10 +21,10 @@ char	*get_var(t_list *env, char *var_name)
 	lst = env;
 	var = !ft_strchr(var_name, '=') ?
 	ft_strjoin(var_name, "=") : ft_strdup(var_name);
-	len = ft_strlen(var_name);
+	len = ft_strlen(var);
 	while (lst)
 	{
-		if (ft_strnequ(var_name, (char *)lst->content, len))
+		if (ft_strnequ(var, (char *)lst->content, len))
 		{
 			free(var);
 			return ((char *)lst->content + len);

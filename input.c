@@ -46,28 +46,29 @@ int			count_word(char *str)
 
 void		debug_vars(char	**input)
 {
-	char	*ptr;
 	char	*res;
-	int		i;
+	char	*ptr;
+	char	*v[2];
+	int		len[2];
 
-	i = -1;
-	while (*input[++i])
+	if ((ptr = ft_strchr(*input, '$')))
 	{
-		if (*input[i] == '$')
+		v[0] = ft_strsub(ptr, 1, count_word(ptr));
+		v[1] = ft_strnequ(v[0], "?", 1) ?
+		ft_itoa(g_ret_status) : ft_strdup(get_var(g_env, v[0]));
+		len[0] = ft_strlen(v[0]) + 1;
+		len[1] = ft_strlen(v[1]);
+		if ((res = ft_strnew(ft_strlen(*input) - len[0] + len[1])))
 		{
-			ptr = ft_strsub(*input, i, count_word(*input + i));
-			if ((ptr = get_var(g_env, ptr)) &&
-				(res = ft_strnew(ft_strlen(*input) + ft_strlen(ptr))))
-			{
-				ft_strncpy(res, *input, i - 1);
-				ft_strcpy(res + i - 1, ptr);
-				ft_strcpy(res + i - 1 + ft_strlen(ptr), *input + i);
-				free(*input);
-				*input = res;
-				i += count_word(*input + i); 
-				free(ptr);
-			}
+			ft_strncpy(res, *input, ptr - *input);
+			ft_strcpy(res + (ptr - *input), v[1]);
+			ft_strcpy(res + (ptr - *input) + len[1], *input + len[0]);
+			free(*input);
+			*input = res;
 		}
+		free(v[0]);
+		free(v[1]);
+		debug_vars(input);
 	}
 } 
 
