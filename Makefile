@@ -46,3 +46,6 @@ $(LIB):
 	make -C libft
 
 re: fclean all
+
+term: 
+	gcc -g terminal.c utils.c parse.c control.c autocomplete.c overlap.c libft/libft.a

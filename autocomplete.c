@@ -19,41 +19,59 @@ int		word_number(char *str, int i, char **ptr)
 	return (1);
 }
 
-void	complete_command(char *ptr, int *i, char **str)
+void	complete_command(char *word, int *i, char **str)
 {
-	printf("complete_command\n");
+	t_list 	*lst;
+
+	lst = NULL;
+	if (full_command_list(&lst, word))
+	{
+		input_str((char *)lst->content, i, str);
+	}
+	ft_lstdel(&lst, &ft_memclr);
 }
 
-void	complete_file(char *ptr, int *i, char **str)
+void	complete_file(char *word, int *i, char **str)
 {
+	char			*res[2];
 	char			*path;
-	DIR				*dir;
-	struct dirent	*file;
+	struct stat		st;
 	int				n;
-	size_t			len;
+	t_list			*lst;
 
-	if ((n = check_dir(ptr, &path)) || ft_strequ(path, "./"))
+	lst = NULL;
+	res[0] = NULL;
+	if (((n = check_dir(word, &path)) || ft_strequ(path, "./"))
+		&& full_file_list(&lst, path, word, n) && (res[0] = get_overlap(lst)))
 	{
-		if (!(dir = opendir(path)))
-			return ;
-		len = ft_strlen(ptr + n);
-		while (len && (file = readdir(dir)))
+		res[1] = ft_strjoin(word, res[0]);
+		if (!lstat(res[1], &st) && st.st_mode & S_IFDIR)
 		{
-			if (ft_strnequ(ptr + n, file->d_name, len) &&
-				!ft_strequ(ptr + n, file->d_name))
-			{
-				input_str(file->d_name + len, i, str);
-				break;
-			}
+			free(res[1]);
+			res[1] = res[0];
+			res[0] = ft_strjoin(res[1], "/");
 		}
-		closedir(dir);
+		free(res[1]);
+		input_str(res[0], i, str);
 	}
+	if (res[0])
+		free(res[0]);
+	ft_lstdel(&lst, &ft_memclr);
 	free(path);
 }
 
-void	complete_var(char *ptr, int *i, char **str)
+void	complete_var(char *word, int *i, char **str)
 {
-	printf("complete_var\n");
+	t_list *lst;
+	char	*res;
+
+	lst = NULL;
+	if (full_var_list(&lst, word) && (res = get_overlap(lst)))
+	{
+		input_str(res, i, str);
+		free(res);
+	}
+	ft_lstdel(&lst, &ft_memclr);
 }
 
 void	autocomplete(int *i, char **str)

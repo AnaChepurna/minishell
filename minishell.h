@@ -134,4 +134,12 @@ int		handle_back_forward(char *c, int *i, char *str);
 void	handle_back(int *i, char *str);
 void	handle_forward(int *i, char *str);
 
+/*
+**overlap.c
+*/
+int		full_file_list(t_list **lst, char *path, char *word, int n);
+char	*get_overlap(t_list *lst);
+int		full_var_list(t_list **lst, char *word);
+int		full_command_list(t_list **lst, char *word);
+
 #endif

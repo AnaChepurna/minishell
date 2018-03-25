@@ -24,12 +24,14 @@ int		get_width(void)
 	return (w.ws_col);
 }
 
-int		main(int argc, char const *argv[])
+int		main(int argc, char const *argv[], char **env)
 {
 	char  	c[5];
 	char	*content;
 	int 	i;
 
+	g_env = NULL;
+	g_env = ft_arrtolst(env);
 	init_term();
 	i = 0;
 	content = NULL;
@@ -45,6 +47,11 @@ int		main(int argc, char const *argv[])
 	}
 	ft_putendl("\n-------");
 	ft_putendl(content);
-	reset_term(); 
+	if (content)
+		free(content);
+	reset_term();
+	ft_lstdel(&g_env, &ft_memclr);
 	return 0;
 }
+
+//
