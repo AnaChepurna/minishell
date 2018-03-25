@@ -125,6 +125,7 @@ void	autocomplete(int *i, char **str);
 **utils.c
 */
 int		check_dir(char *path, char **res_dir);
+int		symbol_size(char c);
 
 /*
 **control.c

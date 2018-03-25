@@ -33,13 +33,13 @@ void			back_carriage(char *str, int back)
 
 	len = ft_strlen(str);
 	index = len - back;
+	if (index < 0)
+		index = 0;
 	while (len > index)
-	{
 		handle_back(&len, str);
-	}
 }
 
-void			print_str(char *str, int bback, int pback, int add)
+/*void			print_str(char *str, int bback, int pback, int add)
 {
 	int		width;
 	int		i;
@@ -47,7 +47,7 @@ void			print_str(char *str, int bback, int pback, int add)
 
 	width = get_width();
 	len = ft_wstrlen(str) - add;
-	if (len % width == 0 && add < 0 && bback)
+	if (len % width == 0 && bback)
 		ft_putstr("[A");
 	while ((len - pback) / width < len / width)
 	{
@@ -66,6 +66,35 @@ void			print_str(char *str, int bback, int pback, int add)
 	ft_putstr("\r");
 	ft_putstr(str);
 	back_carriage(str, bback);
+} */
+
+static void		print_del(char *str, char *buf)
+{
+	int		len[2];
+	int		width;
+
+	ft_putstr(buf);
+	ft_putstr(" ");
+	back_carriage(" ", 1);
+	len[0] = ft_wstrlen(str);
+	if (len[0] && len[0] % (width = get_width()) == 0)
+	{
+		len[1] = ft_wstrlen(buf);
+		while (len[1] > width)
+		{
+			ft_putstr("[A");
+			len[1] -= width;
+		}
+		ft_putstr("[A");
+		while (width - len[1]++)
+			ft_putstr("[C");
+	}
+	else
+	{
+		if (len[0] % (width = get_width()) == width - 1)
+			ft_putstr("[C");
+		back_carriage(str, ft_strlen(buf));
+	}
 }
 
 void			del_str(char *c, int *i, char **str)
@@ -75,16 +104,19 @@ void			del_str(char *c, int *i, char **str)
 
 	mod = ft_strequ("[3~", c) ? 1 : 0;
 	if (mod)
-		buf = *i <= ft_strlen(*str) ? ft_strdup(*str + *i + 1) : ft_strdup("");
+	{
+		if (!ft_strlen(*str) || *i > ft_strlen(*str))
+			return ;
+		buf = ft_strdup(*str + *i + symbol_size((*str)[*i + 1]));
+	}
 	else
 		buf = ft_strdup(*str + *i);
-	if (!mod && *i)
-	{
-		(*i)--;
-	}
+	if (!mod)
+		handle_back(i, *str);
 	ft_strcpy(*str + *i, buf);
 	(*str)[*i + ft_strlen(buf)] = '\0';
-	print_str(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
+	(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
+	print_del(*str, buf);
 	free(buf);
 }
 
@@ -102,7 +134,9 @@ void			input_str(char *c, int *i, char **str)
 		*i += ft_strlen(c);
 		ft_strcpy(*str + *i, buf);
 		(*str)[*i + ft_strlen(buf)] = '\0';
-		print_str(*str, ft_strlen(buf), ft_wstrlen(buf), ft_wstrlen(c));
+		ft_putstr(c);
+		ft_putstr(buf);
+		back_carriage(*str, ft_strlen(buf));
 		free(buf);
 	}
 }

@@ -25,3 +25,19 @@ int		check_dir(char *path, char **res_dir)
 		free(dir);
 	return (isdir);
 }
+
+int		symbol_size(char c)
+{
+	int	n;
+
+	n = 1;
+	if (c < 0)
+	{
+		while (c < 0)
+		{
+			c = c << 1;
+			n++;
+		}
+	}
+	return (n);
+}

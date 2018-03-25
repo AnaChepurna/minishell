@@ -5,6 +5,8 @@ void			handle_back(int *i, char *str)
 	int		width;
 	int		real_i;
 
+	if (!str)
+		return ;
 	width = get_width();
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i)
@@ -15,7 +17,7 @@ void			handle_back(int *i, char *str)
 			while (width--)
 				ft_putstr("[C");
 		}
-		else
+		else if (real_i % width != 0)
 			ft_putstr("[D");
 		(*i)--;
 		while (str[*i] < 0 && !(str[*i] & 64))
@@ -29,6 +31,8 @@ void			handle_forward(int *i, char *str)
 	char	c;
 	int		real_i;
 
+	if (!str)
+		return ;
 	width = get_width();
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i >= ft_strlen(str))
@@ -41,14 +45,7 @@ void			handle_forward(int *i, char *str)
 	}
 	else
 		ft_putstr("[C");
-	if ((c = str[*i]) < 0)
-		while (c < 0)
-		{
-			c = c << 1;
-			(*i)++;
-		}
-	else
-		(*i)++;
+	(*i) += symbol_size(str[*i]);
 }
 
 int				handle_back_forward(char *c, int *i, char *str)
