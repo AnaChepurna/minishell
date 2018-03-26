@@ -19,15 +19,39 @@ int		word_number(char *str, int i, char **ptr)
 	return (1);
 }
 
+int			is_bin(char *path, int check)
+{
+	int			isdir;
+	struct stat	st;
+
+	isdir = 0;
+	if (check)
+		isdir = check_dir(path, NULL);
+	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
+		return (1);
+	//if (isdir)
+		//print_error(path, "no such file or directory\n");
+	return (isdir ? 2 : 0);
+}
+
 void	complete_command(char *word, int *i, char **str, int prompt)
 {
-	t_list 	*lst;
+	t_list 			*lst;
+	t_list			*l;
+	char			*path;
+	char			*res;
+	int				n;
 
 	lst = NULL;
 	if (full_command_list(&lst, word))
-	{
 		input_str((char *)lst->content, i, str, prompt);
+	else if ((n = check_dir(word, &path)) && full_file_list(&lst, path, word, n)
+		&& (res = get_overlap(lst)))
+	{
+		input_str(res, i, str, prompt);
+		free(res);
 	}
+	free(path);
 	ft_lstdel(&lst, &ft_memclr);
 }
 

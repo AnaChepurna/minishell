@@ -114,11 +114,15 @@ int		main(int argc, char const *argv[], char **env)
 	g_env = NULL;
 	g_env = ft_arrtolst(env);
 
-	get_term_input(&str);
-	ft_putendl("--------------------------");
-	ft_putendl(str);
-	free(str);
-
+	while (1)
+	{
+		get_term_input(&str);
+		if (ft_strequ(str, "exit"))
+			break ;
+		ft_putendl("--------------------------");
+		ft_putendl(str);
+		free(str);
+	}
 	ft_lstdel(&g_env, &ft_memclr);
 	return 0;
 }

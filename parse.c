@@ -87,9 +87,9 @@ static void		print_del(char *str, char *buf, int prompt)
 		}
 		if (ft_strlen(buf))
 		{
-		ft_putstr("[A");
-		while (width - len[1]++)
-			ft_putstr("[C");
+			ft_putstr("[A");
+			while (width - len[1]++)
+				ft_putstr("[C");
 		}
 	}
 	else
