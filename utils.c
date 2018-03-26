@@ -48,7 +48,7 @@ void	carriage_down(int real_len, int i, int prompt)
 
 	width = get_width();
 	prompt = prompt % width; 
-	while (real_len + prompt / width >  i + prompt / width)
+	while ((real_len + prompt) / width >  (i + prompt) / width)
 	{
 		i += width;
 		ft_putstr("[B");

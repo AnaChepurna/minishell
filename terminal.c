@@ -94,7 +94,7 @@ int		get_term_input(char **str)
 	//{
 		//if(n++)
 		//	ft_putstr("quote> ");
-		get_term_line(&input, 0);
+		get_term_line(&input, proto_prompt());
 		//buf = content;
 		//content = ft_strjoin(content, input);
 		/*if (buf)
