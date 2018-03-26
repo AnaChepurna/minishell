@@ -45,14 +45,14 @@ void	complete_command(char *word, int *i, char **str, int prompt)
 	lst = NULL;
 	if (full_command_list(&lst, word))
 		input_str((char *)lst->content, i, str, prompt);
-	else if ((n = check_dir(word, &path)) && full_file_list(&lst, path, word, n)
+	/*else if ((n = check_dir(word, &path)) && full_file_list(&lst, path, word, n)
 		&& (res = get_overlap(lst)))
 	{
 		input_str(res, i, str, prompt);
 		free(res);
-	}
-	free(path);
-	ft_lstdel(&lst, &ft_memclr);
+	} 
+	//free(path); */
+	ft_lstdel(&lst, &ft_memclr); 
 }
 
 void	complete_file(char *word, int *i, char **str, int prompt)

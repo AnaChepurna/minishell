@@ -65,6 +65,8 @@ int				handle_back_forward(char *c, int *i, char *str, int prompt)
 
 int				handle_controls(char *c, int *i, char **str, int prompt)
 {
+	char	*command;
+
 	if (ft_strequ(c, "\t"))
 	{
 		autocomplete(i, str, prompt);
@@ -72,12 +74,24 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 	}
 	else if (ft_strequ(c, "[A"))
 	{
-		ft_putstr("up");
+		command = memcommand_manager(UP, NULL);
+		if (command)
+		{
+			print_memcommand(command, *str, *i, prompt);
+			free(*str);
+			*str = command;
+		} 
 		return (1);
 	}
 	else if (ft_strequ(c, "[B"))
 	{
-		ft_putstr("down");
+		command = memcommand_manager(DOWN, NULL);
+		if (command)
+		{
+			print_memcommand(command, *str, *i, prompt);
+			free(*str);
+			*str = command;
+		} 
 		return (1);
 	}
 	return (0);

@@ -33,12 +33,16 @@
 # define CYAN		"\x1B[36m"
 # define WHITE		"\x1B[37m"
 # define RESET		"\x1B[0m"
+# define UP 1
+# define DOWN 2
+# define ADD 3
 
 t_list	*g_env;
 t_list	*g_undo;
 char	**g_start_env;
 int		g_status;
 int		g_ret_status;
+t_list	*g_command;
 
 /*
 **execute.c
@@ -107,7 +111,6 @@ void	print_list_content(t_list *lst);
 **parse.c
 */
 void	input_str(char *c, int *i, char **str, int prompt);
-int		handle_controls(char *c, int *i, char **str, int prompt);
 
 /*
 **terminal.c
@@ -126,6 +129,7 @@ int		check_dir(char *path, char **res_dir);
 int		symbol_size(char c);
 void	carriage_down(int len, int i, int prompt);
 int		proto_prompt(void);
+t_list	*copy_lst(t_list *lst);
 
 /*
 **control.c
@@ -133,6 +137,7 @@ int		proto_prompt(void);
 int		handle_back_forward(char *c, int *i, char *str, int prompt);
 void	handle_back(int *i, char *str, int prompt);
 void	handle_forward(int *i, char *str, int prompt);
+int		handle_controls(char *c, int *i, char **str, int prompt);
 
 /*
 **overlap.c
@@ -141,5 +146,11 @@ int		full_file_list(t_list **lst, char *path, char *word, int n);
 char	*get_overlap(t_list *lst);
 int		full_var_list(t_list **lst, char *word);
 int		full_command_list(t_list **lst, char *word);
+
+/*
+**memcommand.c
+*/
+char	*memcommand_manager(int mod, char *command);
+void	print_memcommand(char *command, char *old, int i, int prompt);
 
 #endif

@@ -66,3 +66,11 @@ int		proto_prompt(void)
 	ft_putstr(": ");
 	return(n);
 }
+
+t_list	*copy_lst(t_list *lst)
+{
+	t_list	*new;
+
+	new = ft_lstnew(lst->content, lst->content_size);
+	return (new);
+}

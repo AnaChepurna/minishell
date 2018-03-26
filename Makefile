@@ -48,4 +48,4 @@ $(LIB):
 re: fclean all
 
 term: 
-	gcc -g terminal.c utils.c parse.c control.c autocomplete.c overlap.c libft/libft.a
+	gcc -g terminal.c utils.c memcommand.c parse.c control.c autocomplete.c overlap.c libft/libft.a

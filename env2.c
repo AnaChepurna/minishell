@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-static t_list		*copy_lst(t_list *lst)
-{
-	t_list	*new;
-
-	new = ft_lstnew(lst->content, lst->content_size);
-	return (new);
-}
-
 void				print_list_content(t_list *lst)
 {
 	ft_putendl((char *)lst->content);
