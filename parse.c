@@ -3,11 +3,11 @@
 static void		check_size(char	*c, char **str)
 {
 	static int	n = 0;
-	static int	rank = 0;
+	static int	rank = 1;
 	char		*buf;
 
-	n = *str ? ft_strlen(c) + n : ft_strlen(c);
-	rank = *str ? rank : 0;
+	n = **str ? ft_strlen(c) + n : ft_strlen(c);
+	rank = **str ? rank : 1;
 	if (n > BUFF_SIZE * rank)
 	{
 		while (n > BUFF_SIZE * rank)
@@ -26,7 +26,7 @@ static void		check_size(char	*c, char **str)
 	}
 }
 
-void			back_carriage(char *str, int back)
+void			back_carriage(char *str, int back, int prompt)
 {
 	int		index;
 	int		len;
@@ -36,7 +36,7 @@ void			back_carriage(char *str, int back)
 	if (index < 0)
 		index = 0;
 	while (len > index)
-		handle_back(&len, str);
+		handle_back(&len, str, prompt);
 }
 
 /*void			print_str(char *str, int bback, int pback, int add)
@@ -68,15 +68,15 @@ void			back_carriage(char *str, int back)
 	back_carriage(str, bback);
 } */
 
-static void		print_del(char *str, char *buf)
+static void		print_del(char *str, char *buf, int prompt)
 {
 	int		len[2];
 	int		width;
 
 	ft_putstr(buf);
 	ft_putstr(" ");
-	back_carriage(" ", 1);
-	len[0] = ft_wstrlen(str);
+	back_carriage(" ", 1, 0);
+	len[0] = ft_wstrlen(str) + prompt;
 	if (len[0] && len[0] % (width = get_width()) == 0)
 	{
 		len[1] = ft_wstrlen(buf);
@@ -85,19 +85,22 @@ static void		print_del(char *str, char *buf)
 			ft_putstr("[A");
 			len[1] -= width;
 		}
+		if (ft_strlen(buf))
+		{
 		ft_putstr("[A");
 		while (width - len[1]++)
 			ft_putstr("[C");
+		}
 	}
 	else
 	{
 		if (len[0] % (width = get_width()) == width - 1)
 			ft_putstr("[C");
-		back_carriage(str, ft_strlen(buf));
+		back_carriage(str, ft_strlen(buf), prompt);
 	}
 }
 
-void			del_str(char *c, int *i, char **str)
+void			del_str(char *c, int *i, char **str, int prompt)
 {
 	char	*buf;
 	int		mod;
@@ -112,21 +115,21 @@ void			del_str(char *c, int *i, char **str)
 	else
 		buf = ft_strdup(*str + *i);
 	if (!mod)
-		handle_back(i, *str);
+		handle_back(i, *str, prompt);
 	ft_strcpy(*str + *i, buf);
 	(*str)[*i + ft_strlen(buf)] = '\0';
 	(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
-	print_del(*str, buf);
+	print_del(*str, buf, prompt);
 	free(buf);
 }
 
-void			input_str(char *c, int *i, char **str)
+void			input_str(char *c, int *i, char **str, int prompt)
 {
 	char		*buf;
 
 	check_size(c, str);
 	if (ft_strequ("[3~", c) || (c[0] == 127 && !c[1]))
-		del_str(c, i, str);
+		del_str(c, i, str, prompt);
 	else
 	{
 		buf = ft_strdup(*str + *i);
@@ -136,7 +139,9 @@ void			input_str(char *c, int *i, char **str)
 		(*str)[*i + ft_strlen(buf)] = '\0';
 		ft_putstr(c);
 		ft_putstr(buf);
-		back_carriage(*str, ft_strlen(buf));
+		if (!((ft_wstrlen(*str) + prompt) % get_width()))
+			ft_putstr("\n");
+		back_carriage(*str, ft_strlen(buf), prompt);
 		free(buf);
 	}
 }

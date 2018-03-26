@@ -83,7 +83,7 @@ void	format_path(char **pwd);
 */
 char	*get_input(void);
 void	debug_home(char **input);
-void	debug_eof(char	**input);
+void	debug_vars(char	**input);
 int		check_quotes(char *str);
 
 /*
@@ -103,13 +103,11 @@ char	*get_color(void);
 int		env(char **args);
 void	print_list_content(t_list *lst);
 
-void		debug_vars(char	**input);
-
 /*
 **parse.c
 */
-void	input_str(char *c, int *i, char **str);
-int		handle_controls(char *c, int *i, char **str);
+void	input_str(char *c, int *i, char **str, int prompt);
+int		handle_controls(char *c, int *i, char **str, int prompt);
 
 /*
 **terminal.c
@@ -119,20 +117,22 @@ int		get_width(void);
 /*
 **autocomplete.c
 */
-void	autocomplete(int *i, char **str);
+void	autocomplete(int *i, char **str, int prompt);
 
 /*
 **utils.c
 */
 int		check_dir(char *path, char **res_dir);
 int		symbol_size(char c);
+void	carriage_down(int len, int i, int prompt);
+int		proto_prompt(void);
 
 /*
 **control.c
 */
-int		handle_back_forward(char *c, int *i, char *str);
-void	handle_back(int *i, char *str);
-void	handle_forward(int *i, char *str);
+int		handle_back_forward(char *c, int *i, char *str, int prompt);
+void	handle_back(int *i, char *str, int prompt);
+void	handle_forward(int *i, char *str, int prompt);
 
 /*
 **overlap.c

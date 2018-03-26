@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void			handle_back(int *i, char *str)
+void			handle_back(int *i, char *str, int prompt)
 {
 	int		width;
 	int		real_i;
@@ -11,13 +11,13 @@ void			handle_back(int *i, char *str)
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i)
 	{
-		if (real_i % width == 0 && real_i != ft_wstrlen(str))
+		if ((real_i + prompt) % width == 0) //&& real_i != ft_wstrlen(str))
 		{
 			ft_putstr("[A");
 			while (width--)
 				ft_putstr("[C");
 		}
-		else if (real_i % width != 0)
+		else //if ((real_i + prompt) % width != 0)
 			ft_putstr("[D");
 		(*i)--;
 		while (str[*i] < 0 && !(str[*i] & 64))
@@ -25,7 +25,7 @@ void			handle_back(int *i, char *str)
 	}
 }
 
-void			handle_forward(int *i, char *str)
+void			handle_forward(int *i, char *str, int prompt)
 {
 	int		width;
 	char	c;
@@ -37,7 +37,7 @@ void			handle_forward(int *i, char *str)
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i >= ft_strlen(str))
 		return ;
-	if (real_i % width == width - 1)
+	if ((real_i + prompt) % width == width - 1)
 	{
 		ft_putstr("[B");
 		while (width--)
@@ -48,26 +48,26 @@ void			handle_forward(int *i, char *str)
 	(*i) += symbol_size(str[*i]);
 }
 
-int				handle_back_forward(char *c, int *i, char *str)
+int				handle_back_forward(char *c, int *i, char *str, int prompt)
 {
 	if (ft_strequ(c, "[D"))
 	{
-		handle_back(i, str);
+		handle_back(i, str, prompt);
 		return (1);
 	}
 	if (ft_strequ(c, "[C"))
 	{
-		handle_forward(i, str);
+		handle_forward(i, str, prompt);
 		return (1);
 	}
 	return (0);
 }
 
-int				handle_controls(char *c, int *i, char **str)
+int				handle_controls(char *c, int *i, char **str, int prompt)
 {
 	if (ft_strequ(c, "\t"))
 	{
-		autocomplete(i, str);
+		autocomplete(i, str, prompt);
 		return (1);
 	}
 	else if (ft_strequ(c, "[A"))

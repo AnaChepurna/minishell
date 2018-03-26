@@ -19,19 +19,19 @@ int		word_number(char *str, int i, char **ptr)
 	return (1);
 }
 
-void	complete_command(char *word, int *i, char **str)
+void	complete_command(char *word, int *i, char **str, int prompt)
 {
 	t_list 	*lst;
 
 	lst = NULL;
 	if (full_command_list(&lst, word))
 	{
-		input_str((char *)lst->content, i, str);
+		input_str((char *)lst->content, i, str, prompt);
 	}
 	ft_lstdel(&lst, &ft_memclr);
 }
 
-void	complete_file(char *word, int *i, char **str)
+void	complete_file(char *word, int *i, char **str, int prompt)
 {
 	char			*res[2];
 	char			*path;
@@ -52,7 +52,7 @@ void	complete_file(char *word, int *i, char **str)
 			res[0] = ft_strjoin(res[1], "/");
 		}
 		free(res[1]);
-		input_str(res[0], i, str);
+		input_str(res[0], i, str, prompt);
 	}
 	if (res[0])
 		free(res[0]);
@@ -60,7 +60,7 @@ void	complete_file(char *word, int *i, char **str)
 	free(path);
 }
 
-void	complete_var(char *word, int *i, char **str)
+void	complete_var(char *word, int *i, char **str, int prompt)
 {
 	t_list *lst;
 	char	*res;
@@ -68,13 +68,13 @@ void	complete_var(char *word, int *i, char **str)
 	lst = NULL;
 	if (full_var_list(&lst, word) && (res = get_overlap(lst)))
 	{
-		input_str(res, i, str);
+		input_str(res, i, str, prompt);
 		free(res);
 	}
 	ft_lstdel(&lst, &ft_memclr);
 }
 
-void	autocomplete(int *i, char **str)
+void	autocomplete(int *i, char **str, int prompt)
 {
 	int		n;
 	char	*ptr;
@@ -83,10 +83,10 @@ void	autocomplete(int *i, char **str)
 	if (!n)
 		return ;
 	if (*ptr == '$')
-		complete_var(ptr, i, str);
+		complete_var(ptr, i, str, prompt);
 	else if (n == 1)
-		complete_command(ptr, i, str);
+		complete_command(ptr, i, str, prompt);
 	else if (n == 2)
-		complete_file(ptr, i, str);
+		complete_file(ptr, i, str, prompt);
 	free(ptr);
 }
