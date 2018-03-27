@@ -121,7 +121,6 @@ int		main(int argc, char const *argv[], char **env)
 		if (ft_strequ(str, "exit"))
 			break ;
 		ft_putendl("--------------------------");
-		ft_putendl(str);
 		memcommand_manager(ADD, str);
 		ft_putendl((char *)g_command->content);
 		free(str);

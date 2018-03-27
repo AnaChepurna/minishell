@@ -115,5 +115,6 @@ char				**ft_strsplitm(const char *s, const char *mask);
 char				**ft_strsplitmq(const char *s, const char *mask);
 char				*ft_pathjoin(char *path, char *name);
 void				delete_quotes(char **input);
+t_list				*ft_lstsort_alp(t_list **begin);
 
 #endif

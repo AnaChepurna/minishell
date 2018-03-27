@@ -94,7 +94,8 @@ static void		print_del(char *str, char *buf, int prompt)
 	}
 	else
 	{
-		if (len[0] % (width = get_width()) == width - 1)
+		width = get_width();
+		if (len[0] % width == width - 1)
 			ft_putstr("[C");
 		back_carriage(str, ft_strlen(buf), prompt);
 	}
@@ -118,7 +119,7 @@ void			del_str(char *c, int *i, char **str, int prompt)
 		handle_back(i, *str, prompt);
 	ft_strcpy(*str + *i, buf);
 	(*str)[*i + ft_strlen(buf)] = '\0';
-	(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
+	//(*str, ft_strlen(buf), ft_wstrlen(buf), -1);
 	print_del(*str, buf, prompt);
 	free(buf);
 }

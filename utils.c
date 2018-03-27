@@ -54,7 +54,7 @@ void	carriage_down(int real_len, int i, int prompt)
 		ft_putstr("[B");
 	}
 	ft_putstr("\n");
-}
+} 
 
 int		proto_prompt(void)
 {

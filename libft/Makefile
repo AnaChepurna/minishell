@@ -34,7 +34,7 @@ FILES = ft_lstprint.c ft_striter.c ft_lstrm.c ft_striteri.c \
 	  ft_lstnew.c ft_strdup.c ft_lstpop.c ft_strequ.c ft_swap.c \
 	  ft_strsort.c  ft_arrlen.c ft_arrrev.c ft_memclr.c ft_strrev.c \
 	  get_next_line.c ft_strsplitm.c ft_strsplitmq.c ft_pathjoin.c \
-	  delete_quotes.c
+	  delete_quotes.c ft_lstsort_alp.c
 O_FILES = $(addprefix $(OBJ), $(FILES:.c=.o))
 
 all: $(NAME)

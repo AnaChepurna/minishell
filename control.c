@@ -30,18 +30,22 @@ void			handle_forward(int *i, char *str, int prompt)
 	int		width;
 	char	c;
 	int		real_i;
+	//int		len;
 
 	if (!str)
 		return ;
 	width = get_width();
+	//len = 
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
-	if (*i >= ft_strlen(str))
+	if (*i >= ft_strlen(str)) //|| ())
 		return ;
 	if ((real_i + prompt) % width == width - 1)
 	{
+		ft_putstr("!");
+		ft_putstr("\r");
 		ft_putstr("[B");
-		while (width--)
-			ft_putstr("[D");
+		//while (width--)
+			//ft_putstr("[D");
 	}
 	else
 		ft_putstr("[C");
@@ -80,6 +84,7 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 			print_memcommand(command, *str, *i, prompt);
 			free(*str);
 			*str = command;
+			*i = ft_strlen(command);
 		} 
 		return (1);
 	}
@@ -91,6 +96,7 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 			print_memcommand(command, *str, *i, prompt);
 			free(*str);
 			*str = command;
+			*i = ft_strlen(command);
 		} 
 		return (1);
 	}

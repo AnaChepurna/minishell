@@ -6,7 +6,6 @@ void		add_command(char *command)
 	int		i;
 
 	current = g_command;
-	ft_putendl(command);
 	i = 0;
 	while (current)
 	{
@@ -37,18 +36,19 @@ char		*memcommand_manager(int mod, char *command)
 	}
 	if (mod == UP)
 	{
-		if (!down)
+		if (!down && !up)
 			up = ft_lstmap(g_command, &copy_lst);
 		if (up)
 			ft_lstadd(&down, (ft_lstpop(&up)));
-		return (up ? ft_strdup((char *)down->content) : NULL);
+		return (down ? ft_strdup((char *)down->content) : NULL);
 	}
 	if (mod == DOWN)
 	{
 		if (down)
 			ft_lstadd(&up, (ft_lstpop(&down)));
-		return (down ? ft_strdup((char *)up->content) : NULL);
+		return (down ? ft_strdup((char *)down->content) : ft_strdup(""));
 	}
+	return (NULL);
 }
 
 void		print_memcommand(char *command, char *old, int i, int prompt)
@@ -62,15 +62,13 @@ void		print_memcommand(char *command, char *old, int i, int prompt)
 	width = get_width();
 	while ((real_len + prompt) / width > 0)
 	{
-		ft_putstr("[A");
-		ft_putstr("\r");
+		ft_putstr("[A\r");
 		n = 0;
 		while (n++ < width)
 			ft_putstr(" ");
 		real_len -= width;
 	}
-	ft_putstr("[A");
-	ft_putstr("\r");
+	ft_putstr("[A\r");
 	n = 0;
 	while (n++ < prompt)
 		ft_putstr("[C");

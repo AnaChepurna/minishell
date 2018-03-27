@@ -94,12 +94,13 @@ int			full_command_list(t_list **lst, char *word)
 	len = ft_strlen(word);
 	if ((paths = ft_strsplit(get_var(g_env, "PATH="), ':')))
 	{
-		i = -1;
-		while(paths[++i])
-			full_file_list(lst, paths[i], word, 0);
+		i = 0;
+		while(paths[i])
+			full_file_list(lst, paths[i++], word, 0);
+		//ft_lstsort_alp(lst);
 		ft_arrfree(&paths);
 	}
-	add_builtin(lst, word, "cd", len);
+	/*dd_builtin(lst, word, "cd", len);
 	add_builtin(lst, word, "echo", len);
 	add_builtin(lst, word, "env", len);
 	add_builtin(lst, word, "exit", len);
@@ -108,7 +109,7 @@ int			full_command_list(t_list **lst, char *word)
 	add_builtin(lst, word, "setenv", len);
 	add_builtin(lst, word, "unsetenv", len);
 	add_builtin(lst, word, "undoenv", len);
-	add_builtin(lst, word, "ls", len);
+	add_builtin(lst, word, "ls", len); */
 	return (*lst ? 1 : 0);
 }
 

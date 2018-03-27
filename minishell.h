@@ -121,6 +121,8 @@ int		get_width(void);
 **autocomplete.c
 */
 void	autocomplete(int *i, char **str, int prompt);
+void	complete_file(char *word, int *i, char **str, int prompt);
+
 
 /*
 **utils.c
