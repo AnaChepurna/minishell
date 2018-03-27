@@ -30,12 +30,10 @@ void			handle_forward(int *i, char *str, int prompt)
 	int		width;
 	char	c;
 	int		real_i;
-	//int		len;
 
 	if (!str)
 		return ;
 	width = get_width();
-	//len = 
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i >= ft_strlen(str)) //|| ())
 		return ;
