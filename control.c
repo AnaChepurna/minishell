@@ -39,7 +39,6 @@ void			handle_forward(int *i, char *str, int prompt)
 		return ;
 	if ((real_i + prompt) % width == width - 1)
 	{
-		ft_putstr("!");
 		ft_putstr("\r");
 		ft_putstr("[B");
 		//while (width--)
@@ -69,34 +68,35 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 {
 	char	*command;
 
-	if (ft_strequ(c, "\t"))
-	{
-		autocomplete(i, str, prompt);
-		return (1);
-	}
-	else if (ft_strequ(c, "[A"))
+	if (ft_strequ(c, "[A"))
 	{
 		command = memcommand_manager(UP, NULL);
-		if (command)
-		{
-			print_memcommand(command, *str, *i, prompt);
-			free(*str);
-			*str = command;
-			*i = ft_strlen(command);
-		} 
+		if (!command)
+			return (1);
+		print_memcommand(command, *str, *i, prompt);
+		free(*str);
+		*str = command;
+		*i = ft_strlen(command); 
 		return (1);
 	}
 	else if (ft_strequ(c, "[B"))
 	{
 		command = memcommand_manager(DOWN, NULL);
-		if (command)
-		{
-			print_memcommand(command, *str, *i, prompt);
-			free(*str);
-			*str = command;
-			*i = ft_strlen(command);
-		} 
+		if (!command)
+			return(1);
+		print_memcommand(command, *str, *i, prompt);
+		free(*str);
+		*str = command;
+		*i = ft_strlen(command); 
 		return (1);
 	}
+	return (0);
+}
+
+int				eot(char *content, int i, int prompt)
+{
+	carriage_down(ft_wstrlen(content), i, prompt);
+	ft_putendl("eot");
+	free(content);
 	return (0);
 }

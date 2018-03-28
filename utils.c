@@ -58,7 +58,7 @@ void	carriage_down(int real_len, int i, int prompt)
 
 int		proto_prompt(void)
 {
-	int	n = 9;
+	int	n = 200;
 	int i = 0;
 
 	while (i++ < n - 2)

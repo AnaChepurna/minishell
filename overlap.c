@@ -25,6 +25,21 @@ char	*get_overlap(t_list *lst)
 	return (mask);
 }
 
+int		is_dir(char *path, char *name)
+{
+	struct stat		st;
+	char			*file;
+
+	file = ft_pathjoin(path, name);
+	if (!lstat(file, &st) && st.st_mode & S_IFDIR)
+	{
+		free(file);
+		return(1);
+	}
+	free(file);
+	return (0);
+}
+
 int		full_file_list(t_list **lst, char *path, char *word, int n)
 {
 	DIR				*dir;
@@ -37,9 +52,11 @@ int		full_file_list(t_list **lst, char *path, char *word, int n)
 		len = ft_strlen(word + n);
 		while ((file = readdir(dir)))
 		{
-			fn = file->d_name;
+			fn = !is_dir(path, file->d_name) ?
+			ft_strdup(file->d_name) : ft_strjoin(file->d_name, "/");
 			if (ft_strnequ(word + n, fn, len) && !ft_strequ(word + n, fn))
 				ft_lstadd(lst, ft_lstnew(fn + len, ft_strlen(fn + len) + 1));
+			free(fn);
 		}
 		closedir(dir);
 	}
@@ -48,90 +65,57 @@ int		full_file_list(t_list **lst, char *path, char *word, int n)
 	return (1);
 }
 
-int		full_var_list(t_list **lst, char *word)
+int		full_dir_list(t_list **lst, char *path, char *word, int n)
 {
-	t_list	*env;
-	char	*var;
-	char	*res;
-	char	*ptr;
-	int		len;
+	DIR				*dir;
+	struct dirent	*file;
+	char			*fn;
+	int				len;
 
-	if (ft_strchr(word, '='))
-		return (0);
-	word++;
-	env = g_env;
-	len = ft_strlen(word);
-	while (env)
+	if ((dir = opendir(path)))
 	{
-		var = (char *)env->content;
-		if (ft_strnequ(word, var, len) && (ptr = ft_strchr(var, '=')))
+		len = ft_strlen(word + n);
+		while ((file = readdir(dir)))
 		{
-			res = ft_strsub(var, len, ptr - var - len);
-			ft_lstadd(lst, ft_lstnew(res, ft_strlen(res) + 1));
-			free(res);
+			if (is_dir(path, file->d_name))
+			{
+			fn = ft_strjoin(file->d_name, "/");
+			if (ft_strnequ(word + n, fn, len) && !ft_strequ(word + n, fn))
+				ft_lstadd(lst, ft_lstnew(fn + len, ft_strlen(fn + len) + 1));
+			free(fn);
+			}
 		}
-		env = env->next;
+		closedir(dir);
 	}
 	if (!(*lst))
 		return (0);
 	return (1);
 }
 
-static void	add_builtin(t_list **lst, char *word, char *name, int len)
+int		full_bin_list(t_list **lst, char *path, char *word, int n)
 {
-	if (ft_strnequ(word, name, len) && ft_strnequ(word, name, len))
-		ft_lstadd(lst, ft_lstnew(name + len, ft_strlen(name + len) + 1));
-}
+	DIR				*dir;
+	struct dirent	*file;
+	char			*fn;
+	int				len;
 
-int			full_command_list(t_list **lst, char *word)
-{
-	int 		len;
-	char		*path_var;
-	char		**paths;
-	char		*buf;
-	int			i;
-
-	len = ft_strlen(word);
-	if ((paths = ft_strsplit(get_var(g_env, "PATH="), ':')))
+	if (n == ft_strlen(word))
+		return (0);
+	if ((dir = opendir(path)))
 	{
-		i = 0;
-		while(paths[i])
-			full_file_list(lst, paths[i++], word, 0);
-		//ft_lstsort_alp(lst);
-		ft_arrfree(&paths);
-	}
-	/*dd_builtin(lst, word, "cd", len);
-	add_builtin(lst, word, "echo", len);
-	add_builtin(lst, word, "env", len);
-	add_builtin(lst, word, "exit", len);
-	add_builtin(lst, word, "echo", len);
-	add_builtin(lst, word, "reset", len);
-	add_builtin(lst, word, "setenv", len);
-	add_builtin(lst, word, "unsetenv", len);
-	add_builtin(lst, word, "undoenv", len);
-	add_builtin(lst, word, "ls", len); */
-	return (*lst ? 1 : 0);
-}
-
-char	*get_var(t_list *env, char *var_name)
-{
-	t_list	*lst;
-	size_t	len;
-	char	*var;
-
-	lst = env;
-	var = !ft_strchr(var_name, '=') ?
-	ft_strjoin(var_name, "=") : ft_strdup(var_name);
-	len = ft_strlen(var_name);
-	while (lst)
-	{
-		if (ft_strnequ(var_name, (char *)lst->content, len))
+		len = ft_strlen(word + n);
+		while ((file = readdir(dir)))
 		{
-			free(var);
-			return ((char *)lst->content + len);
+			fn = ft_pathjoin(path, file->d_name);
+			if (is_bin(fn, 0) && (ft_strnequ(word + n, file->d_name, len) &&
+					!ft_strequ(word + n, file->d_name)))
+				ft_lstadd(lst, ft_lstnew(file->d_name + len,
+					ft_strlen(file->d_name + len) + 1));
+			free(fn);
 		}
-		lst = lst->next;
+		closedir(dir);
 	}
-	free(var);
-	return (NULL);
+	if (!(*lst))
+		return (0);
+	return (1);
 }

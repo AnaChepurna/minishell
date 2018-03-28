@@ -106,7 +106,7 @@ void			del_str(char *c, int *i, char **str, int prompt)
 	char	*buf;
 	int		mod;
 
-	mod = ft_strequ("[3~", c) ? 1 : 0;
+	mod = (c[0] == 127 && !c[1]) ? 0 : 1;
 	if (mod)
 	{
 		if (!ft_strlen(*str) || *i > ft_strlen(*str))
@@ -129,7 +129,7 @@ void			input_str(char *c, int *i, char **str, int prompt)
 	char		*buf;
 
 	check_size(c, str);
-	if (ft_strequ("[3~", c) || (c[0] == 127 && !c[1]))
+	if (ft_strequ("[3~", c) || (c[0] == 127 && !c[1]) || ft_strequ(c, ""))
 		del_str(c, i, str, prompt);
 	else
 	{

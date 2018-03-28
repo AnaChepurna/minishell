@@ -46,21 +46,18 @@ char		*memcommand_manager(int mod, char *command)
 	{
 		if (down)
 			ft_lstadd(&up, (ft_lstpop(&down)));
-		return (down ? ft_strdup((char *)down->content) : ft_strdup(""));
+		return (down ? ft_strdup((char *)down->content) : ft_strnew(BUFF_SIZE + 1));
 	}
 	return (NULL);
 }
 
-void		print_memcommand(char *command, char *old, int i, int prompt)
+void		clear_concole(int width, int real_len, int prompt)
 {
-	int		width;
-	int		real_len;
 	int		n;
 
-	real_len = ft_wstrlen(old);
-	carriage_down(real_len, i, prompt);
-	width = get_width();
-	while ((real_len + prompt) / width > 0)
+	while (prompt > width)
+	prompt -= width;
+	while ((real_len + prompt) / width > prompt)
 	{
 		ft_putstr("[A\r");
 		n = 0;
@@ -72,12 +69,24 @@ void		print_memcommand(char *command, char *old, int i, int prompt)
 	n = 0;
 	while (n++ < prompt)
 		ft_putstr("[C");
-	while (n++ < width)
+	while (n++ <= width)
 		ft_putstr(" ");
 	ft_putstr("\r");
 	n = 0;
 	while (n++ < prompt)
 		ft_putstr("[C");
+}
+
+void		print_memcommand(char *command, char *old, int i, int prompt)
+{
+	int		real_len;
+	int		n;
+	int		width;
+
+	width = get_width();
+	real_len = ft_wstrlen(old);
+	carriage_down(real_len, i, prompt);
+	clear_concole(width, real_len, prompt);
 	ft_putstr(command);
 	if ((ft_wstrlen(command) + prompt) % width == 0)
 		ft_putstr("\n");

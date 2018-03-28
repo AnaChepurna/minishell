@@ -29,8 +29,6 @@ int		get_term_line(char **str, int prompt)
 	char  	c[5];
 	char	*content;
 	int 	i;
-	int		width;
-	int		len;
 
 	prompt = prompt < 0 ? 0 : prompt;
 	i = 0;
@@ -41,8 +39,12 @@ int		get_term_line(char **str, int prompt)
 		read(0, c, 4);
 		if (ft_strequ(c, "\n"))
 			break ;
-		if (!handle_back_forward(c, &i, content, prompt)
-			&& !handle_controls(c, &i, &content, prompt))
+		if (i == 0 && ft_strequ(c, ""))
+			return (eot(content, i, prompt));
+		if (ft_strequ(c, "\t"))
+			autocomplete(&i, &content, prompt);
+		else if (!handle_back_forward(c, &i, content, prompt)
+			&& !handle_controls(c, &i, &content, prompt) && *c != '')
 			input_str(c, &i, &content, prompt);
 	}
 	*str = content;
@@ -125,6 +127,7 @@ int		main(int argc, char const *argv[], char **env)
 		ft_putendl((char *)g_command->content);
 		free(str);
 	}
+	free(str);
 	ft_lstdel(&g_env, &ft_memclr);
 	ft_lstdel(&g_command, &ft_memclr);
 	return 0;

@@ -140,19 +140,27 @@ int		handle_back_forward(char *c, int *i, char *str, int prompt);
 void	handle_back(int *i, char *str, int prompt);
 void	handle_forward(int *i, char *str, int prompt);
 int		handle_controls(char *c, int *i, char **str, int prompt);
+int		eot(char *content, int i, int prompt);
 
 /*
 **overlap.c
 */
 int		full_file_list(t_list **lst, char *path, char *word, int n);
+int		full_dir_list(t_list **lst, char *path, char *word, int n);
+int		full_bin_list(t_list **lst, char *path, char *word, int n);
 char	*get_overlap(t_list *lst);
-int		full_var_list(t_list **lst, char *word);
-int		full_command_list(t_list **lst, char *word);
 
 /*
 **memcommand.c
 */
 char	*memcommand_manager(int mod, char *command);
 void	print_memcommand(char *command, char *old, int i, int prompt);
+
+/*
+**overlap2.c
+*/
+int		is_dir(char *path, char *name);
+int		full_var_list(t_list **lst, char *word);
+int		full_command_list(t_list **lst, char *word);
 
 #endif

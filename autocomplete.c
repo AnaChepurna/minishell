@@ -43,38 +43,33 @@ void	complete_command(char *word, int *i, char **str, int prompt)
 	int				n;
 
 	lst = NULL;
+	path = NULL;
 	if (full_command_list(&lst, word))
+		input_str((char *)lst->content, i, str, prompt);
+	else if ((n = check_dir(word, &path)) && full_bin_list(&lst, path, word, n))
 		input_str((char *)lst->content, i, str, prompt);
 	else
 		complete_file(word, i, str, prompt);
+	if (path)
+		free(path);
 	ft_lstdel(&lst, &ft_memclr); 
 }
 
 void	complete_file(char *word, int *i, char **str, int prompt)
 {
-	char			*res[2];
+	char			*res;
 	char			*path;
 	struct stat		st;
 	int				n;
 	t_list			*lst;
 
 	lst = NULL;
-	res[0] = NULL;
 	if (((n = check_dir(word, &path)) || ft_strequ(path, "./"))
-		&& full_file_list(&lst, path, word, n) && (res[0] = get_overlap(lst)))
+		&& full_file_list(&lst, path, word, n) && (res = get_overlap(lst)))
 	{
-		res[1] = ft_strjoin(word, res[0]);
-		if (!lstat(res[1], &st) && st.st_mode & S_IFDIR)
-		{
-			free(res[1]);
-			res[1] = res[0];
-			res[0] = ft_strjoin(res[1], "/");
-		}
-		free(res[1]);
-		input_str(res[0], i, str, prompt);
+		input_str(res, i, str, prompt);
+		free(res);
 	}
-	if (res[0])
-		free(res[0]);
 	ft_lstdel(&lst, &ft_memclr);
 	free(path);
 }
