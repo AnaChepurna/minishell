@@ -18,12 +18,15 @@ void			clear_global(void)
 	g_env = NULL;
 	ft_lstdel(&g_undo, &ft_memclr);
 	g_undo = NULL;
+	ft_lstdel(&g_command, &ft_memclr);
+	g_command = NULL;
 }
 
 void			init_global(void)
 {
 	g_env = ft_arrtolst(g_start_env);
 	g_undo = NULL;
+	g_command = NULL;
 }
 
 int				exit_minishell(char **args)
@@ -65,18 +68,18 @@ static void		handle_commands(char *input)
 int				main(int c, char **v, char **e)
 {
 	char	*input;
-
+ 
 	(void)c;
 	(void)v;
 	g_start_env = e;
 	init_global();
 	while (1)
 	{
-		print_prompt();
-		signal(SIGINT, sigint_handler);
-		if ((input = get_input()))
+		//signal(SIGINT, sigint_handler);
+		if (get_term_input(&input))
 		{
 			handle_commands(input);
+			memcommand_manager(ADD, input);
 			free(input);
 		}
 	}

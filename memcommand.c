@@ -80,7 +80,6 @@ void		clear_concole(int width, int real_len, int prompt)
 void		print_memcommand(char *command, char *old, int i, int prompt)
 {
 	int		real_len;
-	int		n;
 	int		width;
 
 	width = get_width();

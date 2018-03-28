@@ -19,27 +19,10 @@ int		word_number(char *str, int i, char **ptr)
 	return (1);
 }
 
-int			is_bin(char *path, int check)
-{
-	int			isdir;
-	struct stat	st;
-
-	isdir = 0;
-	if (check)
-		isdir = check_dir(path, NULL);
-	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
-		return (1);
-	//if (isdir)
-		//print_error(path, "no such file or directory\n");
-	return (isdir ? 2 : 0);
-}
-
 void	complete_command(char *word, int *i, char **str, int prompt)
 {
 	t_list 			*lst;
-	t_list			*l;
 	char			*path;
-	char			*res;
 	int				n;
 
 	lst = NULL;
@@ -59,7 +42,6 @@ void	complete_file(char *word, int *i, char **str, int prompt)
 {
 	char			*res;
 	char			*path;
-	struct stat		st;
 	int				n;
 	t_list			*lst;
 

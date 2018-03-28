@@ -28,7 +28,6 @@ void			handle_back(int *i, char *str, int prompt)
 void			handle_forward(int *i, char *str, int prompt)
 {
 	int		width;
-	char	c;
 	int		real_i;
 
 	if (!str)

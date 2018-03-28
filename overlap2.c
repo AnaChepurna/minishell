@@ -25,7 +25,6 @@ static void	add_commands(t_list **lst, char *word, int len)
 int			full_command_list(t_list **lst, char *word)
 {
 	int 		len;
-	char		*path_var;
 	char		**paths;
 	int			i;
 
@@ -78,27 +77,4 @@ int		full_var_list(t_list **lst, char *word)
 	if (!(*lst))
 		return (0);
 	return (1);
-}
-
-char	*get_var(t_list *env, char *var_name)
-{
-	t_list	*lst;
-	size_t	len;
-	char	*var;
-
-	lst = env;
-	var = !ft_strchr(var_name, '=') ?
-	ft_strjoin(var_name, "=") : ft_strdup(var_name);
-	len = ft_strlen(var_name);
-	while (lst)
-	{
-		if (ft_strnequ(var_name, (char *)lst->content, len))
-		{
-			free(var);
-			return ((char *)lst->content + len);
-		}
-		lst = lst->next;
-	}
-	free(var);
-	return (NULL);
 }

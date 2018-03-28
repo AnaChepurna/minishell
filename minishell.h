@@ -43,6 +43,7 @@ char	**g_start_env;
 int		g_status;
 int		g_ret_status;
 t_list	*g_command;
+int		g_stop;
 
 /*
 **execute.c
@@ -55,7 +56,7 @@ int		exec_bin(char **args, t_list *env);
 /*
 **output.c
 */
-void	print_prompt(void);
+int		print_prompt(void);
 void	print_error(char *arg, char *msg);
 int		echo(char **args);
 
@@ -85,7 +86,6 @@ void	format_path(char **pwd);
 /*
 **input.c
 */
-char	*get_input(void);
 void	debug_home(char **input);
 void	debug_vars(char	**input);
 int		check_quotes(char *str);
@@ -95,6 +95,7 @@ int		check_quotes(char *str);
 */
 void	sigint_handler(int signo);
 void	sigint_fork_handler(int signo);
+void	sigint_stop_handler(int signo);
 
 /*
 **garland.c
@@ -116,6 +117,7 @@ void	input_str(char *c, int *i, char **str, int prompt);
 **terminal.c
 */
 int		get_width(void);
+int		get_term_input(char **str);
 
 /*
 **autocomplete.c

@@ -40,22 +40,26 @@ char	*get_pwd(void)
 	return (NULL);
 }
 
-void	print_prompt(void)
+int		print_prompt(void)
 {
 	char	*pwd;
 	char	*color;
+	int		ret;
 
 	color = get_color();
 	pwd = get_pwd();
 	ft_putstr(color);
 	ft_putstr("♥" RESET " ");
+	ret = 4;
 	if (pwd)
 	{
 		ft_putstr(":");
 		ft_putstr(pwd);
+		ret += ft_wstrlen(pwd);
 		free(pwd);
 	}
 	ft_putstr("> ");
+	return (ret);
 }
 
 void	print_error(char *arg, char *msg)

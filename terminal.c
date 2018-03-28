@@ -31,12 +31,32 @@ int		get_term_line(char **str, int prompt)
 	int 	i;
 
 	prompt = prompt < 0 ? 0 : prompt;
-	i = 0;
-	content = ft_strnew(BUFF_SIZE + 1);
+	i = ft_strlen(*str);
+	content = *str;//ft_strnew(BUFF_SIZE + 1);
 	while (1)
 	{
+		/*if (g_stop)
+		{
+			free(content);
+			// *str = NULL;
+			content = ft_strnew(BUFF_SIZE + 1);
+			g_stop = 0;
+			return (0);
+		} */
+		//ft_putnbr(g_stop);
 		ft_memset(c, '\0', 5);
 		read(0, c, 4);
+		if (g_stop)
+		{
+			free(content);
+			// *str = NULL;
+			//ft_putendl("sigint2");
+			content = ft_strnew(BUFF_SIZE + 1);
+			i = 0;
+			g_stop = 0;
+			//return (get_term_line(str, prompt));
+			//return (0);
+		}
 		if (ft_strequ(c, "\n"))
 			break ;
 		if (i == 0 && ft_strequ(c, ""))
@@ -46,57 +66,61 @@ int		get_term_line(char **str, int prompt)
 		else if (!handle_back_forward(c, &i, content, prompt)
 			&& !handle_controls(c, &i, &content, prompt) && *c != '')
 			input_str(c, &i, &content, prompt);
-	}
-	*str = content;
-	carriage_down(ft_wstrlen(content), i, prompt);
-	return (1);
-}
-
-int			check_quotes(char *str)
-{
-	int		res;
-	char	c;
-
-	if (!str)
-		return (0);
-	res = 1;
-	c = 0;
-	while (*str)
-	{
-		if (*str == '\'' || *str == '"')
+		//ft_putendl(content);
+		/*if (g_stop)
 		{
-			if (!c)
-			{
-				c = *str;
-				res = 0;
-			}
-			else if (c == *str)
-			{
-				c = 0;
-				res = 1;
-			}
-		}
-		str++;
+			//free(content);
+			// *str = NULL;
+			//content = ft_strnew(BUFF_SIZE + 1);
+			g_stop = 0;
+			ft_putendl("for next input");
+			ft_putendl(content);
+			ft_putendl(c);
+			return (get_term_line(str, prompt));
+			//return (0);
+		} */
+		//
 	}
-	return (res);
+	//ft_putendl(content);
+	/*if (g_stop)
+		{
+			//free(content);
+			// *str = NULL;
+			//content = ft_strnew(BUFF_SIZE + 1);
+			g_stop = 0;
+			ft_putendl("sigint3");
+			return (get_term_line(str, prompt));
+			//return (0);
+		} */
+	//if (!g_stop)
+		//*str = content;
+		carriage_down(ft_wstrlen(content), i, prompt);
+	return (1);
 }
 
 int		get_term_input(char **str)
 {
-	char	*content;
+//	char	*content;
 	char	*input;
-	char	*buf;
-	int		n;
+//	char	*buf;
+//	int		n;
 
 	init_term();
-	content = NULL;
-	input = NULL;
-	n = 0;
+	//content = NULL;
+
+	g_stop = 0;
+	input = ft_strnew(BUFF_SIZE + 1);
+	signal(SIGINT, sigint_handler);
+
+	//n = 0;
 	//while (!check_quotes(content))
 	//{
 		//if(n++)
-		//	ft_putstr("quote> ");
-		get_term_line(&input, proto_prompt());
+		//if (!g_stop)
+	//g_stop = 0;
+	//if (!g_stop)
+			get_term_line(&input, print_prompt());
+
 		//buf = content;
 		//content = ft_strjoin(content, input);
 		/*if (buf)
@@ -104,12 +128,26 @@ int		get_term_input(char **str)
 		if (input)
 			free(input);
 	}*/
-	*str = input;
+	/*if (!g_stop)
+	{
+		free(input);
+		input = NULL;
+	} */
+	//ft_putnbr(g_stop);
 	reset_term();
+	/*if (g_stop)
+	{
+		free(input);
+		// *str = ft_strdup("");
+		return (0);
+	} */
+	//ft_putstr("input is ");
+	//ft_putendl(input);
+	*str = input;
 	return (1);
 }
 
-int		main(int argc, char const *argv[], char **env)
+/*int		main(int argc, char const *argv[], char **env)
 {
 	char *str;
 
@@ -131,6 +169,6 @@ int		main(int argc, char const *argv[], char **env)
 	ft_lstdel(&g_env, &ft_memclr);
 	ft_lstdel(&g_command, &ft_memclr);
 	return 0;
-}
+} */
 
 //

@@ -19,6 +19,7 @@ void	sigint_handler(int signo)
 		ft_putstr("\n");
 		print_prompt();
 		g_ret_status = 130;
+		g_stop = 1;
 		signal(SIGINT, sigint_handler);
 	}
 }

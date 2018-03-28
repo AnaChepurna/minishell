@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -g
 NAME = minishell
 SRC = 	main.c \
 		output.c \
@@ -22,7 +22,14 @@ SRC = 	main.c \
 		signal.c \
 		garland.c \
 		env2.c \
-		utils.c
+		utils.c \
+		terminal.c \
+		memcommand.c \
+		parse.c \
+		overlap.c \
+		overlap2.c \
+		control.c \
+		autocomplete.c
 OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a
 
@@ -46,6 +53,3 @@ $(LIB):
 	make -C libft
 
 re: fclean all
-
-term: 
-	gcc -g terminal.c utils.c memcommand.c parse.c overlap2.c control.c autocomplete.c overlap.c libft/libft.a
