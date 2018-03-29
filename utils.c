@@ -42,29 +42,19 @@ int		symbol_size(char c)
 	return (n);
 }
 
-void	carriage_down(int real_len, int i, int prompt)
+void				replace(char **dst, char *src)
 {
-	int width;
+	if (*dst)
+		free(*dst);
+	*dst = src;
+}
 
-	width = get_width();
-	prompt = prompt % width; 
-	while ((real_len + prompt) / width >  (i + prompt) / width)
-	{
-		i += width;
-		ft_putstr("[B");
-	}
-	ft_putstr("\n");
-} 
-
-int		proto_prompt(void)
+int					get_width(void)
 {
-	int	n = 200;
-	int i = 0;
+	struct winsize w;
 
-	while (i++ < n - 2)
-		ft_putstr(" ");
-	ft_putstr(": ");
-	return(n);
+	ioctl(0, TIOCGWINSZ, &w);
+	return (w.ws_col);
 }
 
 t_list	*copy_lst(t_list *lst)

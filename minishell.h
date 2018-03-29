@@ -116,7 +116,6 @@ void	input_str(char *c, int *i, char **str, int prompt);
 /*
 **terminal.c
 */
-int		get_width(void);
 int		get_term_input(char **str);
 
 /*
@@ -131,8 +130,8 @@ void	complete_file(char *word, int *i, char **str, int prompt);
 */
 int		check_dir(char *path, char **res_dir);
 int		symbol_size(char c);
-void	carriage_down(int len, int i, int prompt);
-int		proto_prompt(void);
+void	replace(char **dst, char *src);
+int		get_width(void);
 t_list	*copy_lst(t_list *lst);
 
 /*
@@ -157,6 +156,7 @@ char	*get_overlap(t_list *lst);
 */
 char	*memcommand_manager(int mod, char *command);
 void	print_memcommand(char *command, char *old, int i, int prompt);
+void	carriage_down(int len, int i, int prompt);
 
 /*
 **overlap2.c

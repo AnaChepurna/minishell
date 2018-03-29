@@ -90,3 +90,17 @@ void		print_memcommand(char *command, char *old, int i, int prompt)
 	if ((ft_wstrlen(command) + prompt) % width == 0)
 		ft_putstr("\n");
 }
+
+void	carriage_down(int real_len, int i, int prompt)
+{
+	int width;
+
+	width = get_width();
+	prompt = prompt % width; 
+	while ((real_len + prompt) / width >  (i + prompt) / width)
+	{
+		i += width;
+		ft_putstr("[B");
+	}
+	ft_putstr("\n");
+}
