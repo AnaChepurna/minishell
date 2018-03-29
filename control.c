@@ -48,16 +48,21 @@ void			handle_forward(int *i, char *str, int prompt)
 	(*i) += symbol_size(str[*i]);
 }
 
-int				handle_back_forward(char *c, int *i, char *str, int prompt)
+int				handle_back_forward(char *c, int *i, char **str, int prompt)
 {
+	if (ft_strequ(c, "\t"))
+	{
+		autocomplete(i, str, prompt);
+		return (1);
+	}
 	if (ft_strequ(c, "[D"))
 	{
-		handle_back(i, str, prompt);
+		handle_back(i, *str, prompt);
 		return (1);
 	}
 	if (ft_strequ(c, "[C"))
 	{
-		handle_forward(i, str, prompt);
+		handle_forward(i, *str, prompt);
 		return (1);
 	}
 	return (0);
@@ -92,10 +97,12 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 	return (0);
 }
 
-int				eot(char *content, int i, int prompt)
+int				eot(char *dst, char *content, int i, int prompt)
 {
 	carriage_down(ft_wstrlen(content), i, prompt);
-	ft_putendl("eot");
+	clear_global();
 	free(content);
+	free (dst);
+	kill(0, SIGTERM);
 	return (0);
 }

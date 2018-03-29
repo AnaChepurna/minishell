@@ -48,14 +48,13 @@ int		get_term_line(char **str, int prompt)
 		if (ft_strequ(c, "\n"))
 			break ;
 		if (i == 0 && ft_strequ(c, ""))
-			return (eot(content, i, prompt));
-		if (ft_strequ(c, "\t"))
-			autocomplete(&i, &content, prompt);
-		else if (!handle_back_forward(c, &i, content, prompt)
+			return (eot(*str, content, i, prompt));
+		else if (!handle_back_forward(c, &i, &content, prompt)
 			&& !handle_controls(c, &i, &content, prompt) && *c != '')
 			input_str(c, &i, &content, prompt);
 	}
 	replace(str, ft_strjoin(*str, content));
+	free(content);
 	carriage_down(ft_wstrlen(content), i, prompt);
 	return (1);
 }

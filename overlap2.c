@@ -9,16 +9,15 @@ static void	add_builtin(t_list **lst, char *word, char *name, int len)
 static void	add_commands(t_list **lst, char *word, int len)
 {
 	add_builtin(lst, word, "cd", len);
-	add_builtin(lst, word, "echo", len);
-	add_builtin(lst, word, "env", len);
 	add_builtin(lst, word, "exit", len);
-	add_builtin(lst, word, "echo", len);
 	add_builtin(lst, word, "reset", len);
 	add_builtin(lst, word, "setenv", len);
 	add_builtin(lst, word, "unsetenv", len);
 	add_builtin(lst, word, "undoenv", len);
 	add_builtin(lst, word, "ls", len);
 	add_builtin(lst, word, "emacs", len);
+	add_builtin(lst, word, "env", len);
+	add_builtin(lst, word, "echo", len);
 	add_builtin(lst, word, "vim", len);
 }
 

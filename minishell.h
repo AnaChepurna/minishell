@@ -137,11 +137,11 @@ t_list	*copy_lst(t_list *lst);
 /*
 **control.c
 */
-int		handle_back_forward(char *c, int *i, char *str, int prompt);
+int		handle_back_forward(char *c, int *i, char **str, int prompt);
 void	handle_back(int *i, char *str, int prompt);
 void	handle_forward(int *i, char *str, int prompt);
 int		handle_controls(char *c, int *i, char **str, int prompt);
-int		eot(char *content, int i, int prompt);
+int		eot(char *dst, char *content, int i, int prompt);
 
 /*
 **overlap.c

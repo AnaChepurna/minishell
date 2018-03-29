@@ -60,12 +60,13 @@ void				format_path(char **pwd)
 	if ((ptr = ft_strstr(*pwd, "../")) ||
 			((ptr = ft_strstr(*pwd, "/..")) && !ptr[3] && ptr != *pwd))
 	{
-		minus = 4;
+		minus = 3;
 		while (--ptr > *pwd && *(ptr - 1) != '/')
 			minus++;
 	}
 	else if ((ptr = ft_strstr(*pwd, "./")) ||
-		((ptr = ft_strstr(*pwd, "/.")) && !ptr[2] && ptr != *pwd))
+		((ptr = ft_strstr(*pwd, "/.")) && !ptr[2] && ptr != *pwd) ||
+		((ptr = ft_strstr(*pwd, "..")) && ptr - 1 == *pwd && !ptr[2]))
 		minus = 2;
 	else if ((ptr = ft_strstr(*pwd, "/.")) && !ptr[2] && ptr == *pwd)
 	{

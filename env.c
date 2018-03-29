@@ -118,5 +118,6 @@ int			reset_env(void)
 {
 	clear_global();
 	init_global();
+	chdir(get_var(g_env, "PWD="));
 	return (1);
 }

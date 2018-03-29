@@ -16,6 +16,7 @@ void	sigint_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
+		ft_putstr("^C");
 		ft_putstr("\n");
 		print_prompt();
 		g_ret_status = 130;

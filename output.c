@@ -15,14 +15,13 @@
 char	*get_pwd(void)
 {
 	char	*pwd;
-	char	buf[512];
 	char	*home;
 	char	*res;
 	size_t	len;
 
 	if (ft_strequ(get_var(g_env, "PROMPT_PWD="), "on"))
 	{
-		pwd = getcwd(buf, 512);
+		pwd = get_var(g_env, "PWD=");
 		home = get_var(g_env, "HOME=");
 		len = ft_strlen(home);
 		if (ft_strnequ(pwd, home, len))
