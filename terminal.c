@@ -67,12 +67,18 @@ int		get_term_input(char **str)
 	g_stop = 0;
 	input = ft_strdup("");
 	signal(SIGINT, sigint_handler);
-	get_term_line(&input, print_prompt());
+	if (!get_term_line(&input, print_prompt()))
+		kill(0, SIGTERM);
 	while (!check_quotes(input))
 	{
 		replace(&input, ft_strjoin(input, "\n"));
 		ft_putstr("quote> ");
-		get_term_line(&input, 7);
+		if (!get_term_line(&input, 7))
+		{
+			print_error("minishell", "syntax problem: unexpected eof\n");
+			input = ft_strdup("");
+			break;
+		}
 	}
 	reset_term();
 	*str = input;

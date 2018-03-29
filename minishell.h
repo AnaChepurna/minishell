@@ -95,7 +95,7 @@ int		check_quotes(char *str);
 */
 void	sigint_handler(int signo);
 void	sigint_fork_handler(int signo);
-void	sigint_stop_handler(int signo);
+int		eot(char *dst, char *content, int i, int prompt);
 
 /*
 **garland.c
@@ -141,7 +141,6 @@ int		handle_back_forward(char *c, int *i, char **str, int prompt);
 void	handle_back(int *i, char *str, int prompt);
 void	handle_forward(int *i, char *str, int prompt);
 int		handle_controls(char *c, int *i, char **str, int prompt);
-int		eot(char *dst, char *content, int i, int prompt);
 
 /*
 **overlap.c

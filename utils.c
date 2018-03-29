@@ -57,7 +57,7 @@ int					get_width(void)
 	return (w.ws_col);
 }
 
-t_list	*copy_lst(t_list *lst)
+t_list				*copy_lst(t_list *lst)
 {
 	t_list	*new;
 

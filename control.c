@@ -96,13 +96,3 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 	}
 	return (0);
 }
-
-int				eot(char *dst, char *content, int i, int prompt)
-{
-	carriage_down(ft_wstrlen(content), i, prompt);
-	clear_global();
-	free(content);
-	free (dst);
-	kill(0, SIGTERM);
-	return (0);
-}
