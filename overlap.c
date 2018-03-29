@@ -107,7 +107,7 @@ int		full_bin_list(t_list **lst, char *path, char *word, int n)
 		while ((file = readdir(dir)))
 		{
 			fn = ft_pathjoin(path, file->d_name);
-			if (is_bin(fn, 0) && (ft_strnequ(word + n, file->d_name, len) &&
+			if (is_bin(fn, 0) == 1 && (ft_strnequ(word + n, file->d_name, len) &&
 					!ft_strequ(word + n, file->d_name)))
 				ft_lstadd(lst, ft_lstnew(file->d_name + len,
 					ft_strlen(file->d_name + len) + 1));

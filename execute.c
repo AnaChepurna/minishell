@@ -43,14 +43,22 @@ int			is_bin(char *path, int check)
 {
 	int			isdir;
 	struct stat	st;
+	int			i;
 
 	isdir = 0;
 	if (check)
 		isdir = check_dir(&path, NULL);
-	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
+	if (!(i = lstat(path, &st)) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
 		return (1);
 	if (isdir)
-		print_error(path, "no such file or directory\n");
+	{
+		if (i)
+			print_error(path, "no such file or directory\n");
+		else if (!i && !(st.st_mode & S_IXUSR))
+			print_error(path, "permission denied\n");
+		else if (!i && st.st_mode & S_IFDIR)
+			print_error(path, "is a directory\n");
+	}
 	return (isdir ? 2 : 0);
 }
 
