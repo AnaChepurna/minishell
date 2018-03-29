@@ -23,7 +23,6 @@ void		debug_home(char **input)
 	{
 		src = get_var(g_env, "HOME=");
 		len = ft_strlen(src);
-
 		if ((res = ft_strnew(len + ft_strlen(*input + 1))))
 		{
 			ft_strcpy(res, src);

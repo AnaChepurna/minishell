@@ -46,7 +46,7 @@ int			is_bin(char *path, int check)
 
 	isdir = 0;
 	if (check)
-		isdir = check_dir(path, NULL);
+		isdir = check_dir(&path, NULL);
 	if (!lstat(path, &st) && st.st_mode & S_IFREG && st.st_mode & S_IXUSR)
 		return (1);
 	if (isdir)
@@ -121,7 +121,6 @@ void		execute(char *command)
 		debug_home(&(args[i]));
 		delete_quotes(&(args[i]));
 		debug_vars(&(args[i]));
-		//debug_eof(&(args[i]));
 		i++;
 	}
 	if (*args)

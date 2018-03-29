@@ -128,7 +128,7 @@ void	complete_file(char *word, int *i, char **str, int prompt);
 /*
 **utils.c
 */
-int		check_dir(char *path, char **res_dir);
+int		check_dir(char **path, char **res_dir);
 int		symbol_size(char c);
 void	replace(char **dst, char *src);
 int		get_width(void);
