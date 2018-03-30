@@ -69,8 +69,7 @@ int			exec_bin(char **args, t_list *env)
 	size_t		i;
 	int			status;
 
-	name = (ft_strequ(*args, "ls") && !get_var(env, "PATH=")) ?
-	ft_strdup("/bin/ls") : ft_strdup(*args);
+	name = ft_strdup(*args);
 	if (!(status = is_bin(name, 1)))
 	{
 		if ((paths = ft_strsplit(get_var(env, "PATH="), ':')))

@@ -82,7 +82,6 @@ int		get_term_input(char **str)
 		kill(0, SIGTERM);
 	while (!check_quotes(input))
 	{
-		replace(&input, ft_strjoin(input, "\n"));
 		ft_putstr("quote> ");
 		if (!get_term_line(&input, 7))
 		{
