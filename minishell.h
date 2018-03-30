@@ -44,8 +44,8 @@ int		g_status;
 int		g_ret_status;
 t_list	*g_command;
 int		g_stop;
-static struct termios old;
-static struct termios new;
+struct termios g_old;
+struct termios g_new;
 
 /*
 **execute.c

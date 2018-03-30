@@ -14,16 +14,16 @@
 
 void	init_term(void)
 {
-	tcgetattr(0, &old);
-	new = old;
-	new.c_lflag &= ~ICANON;
-	new.c_lflag &= ~ECHO;
-	tcsetattr(0, TCSANOW, &new);
+	tcgetattr(0, &g_old);
+	g_new = g_old;
+	g_new.c_lflag &= ~ICANON;
+	g_new.c_lflag &= ~ECHO;
+	tcsetattr(0, TCSANOW, &g_new);
 }
 
 void	reset_term(void)
 {
-	tcsetattr(0, TCSANOW, &old);
+	tcsetattr(0, TCSANOW, &g_old);
 }
 
 void	init_parser(char **dst, char **content, int *i)
@@ -79,7 +79,10 @@ int		get_term_input(char **str)
 	input = ft_strdup("");
 	signal(SIGINT, sigint_handler);
 	if (!get_term_line(&input, print_prompt()))
+	{
+		reset_term();
 		exit_minishell(NULL);
+	}
 	while (!check_quotes(input))
 	{
 		replace(&input, ft_strjoin(input, "\n"));
