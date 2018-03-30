@@ -15,13 +15,18 @@
 static void		add_command(char *command)
 {
 	t_list	*current;
+	char	*com;
 	int		i;
 
+	if ((com = ft_strchr(command, '\n')))
+		com = ft_strsub(command, 0, com - command);
+	else
+		com = ft_strdup(command);
 	current = g_command;
 	i = 0;
 	while (current)
 	{
-		if (ft_strequ((char*)current->content, command))
+		if (ft_strequ((char*)current->content, com))
 		{
 			current = ft_lstrm(&g_command, i);
 			break ;
@@ -30,8 +35,9 @@ static void		add_command(char *command)
 		current = current->next;
 	}
 	if (!current)
-		current = ft_lstnew(command, ft_strlen(command) + 1);
+		current = ft_lstnew(com, ft_strlen(com) + 1);
 	ft_lstadd(&g_command, current);
+	free(com);
 }
 
 static char		*up_command(t_list **up, t_list **down)
