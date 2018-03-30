@@ -21,6 +21,7 @@
 
 # define LL_MAX 9223372036854775807
 # define IS_SPACE(n) ((n) == ' ' || (n) == '\t')
+# define IS_QUOTE(n) ((n) == '"' || (n) == '\'' || (n) == '`')
 
 typedef struct		s_list
 {

@@ -79,7 +79,7 @@ int		get_term_input(char **str)
 	input = ft_strdup("");
 	signal(SIGINT, sigint_handler);
 	if (!get_term_line(&input, print_prompt()))
-		kill(0, SIGTERM);
+		exit_minishell(NULL);
 	while (!check_quotes(input))
 	{
 		replace(&input, ft_strjoin(input, "\n"));

@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAG = -Wall -Wextra -Werror -g
+CFLAG = -Wall -Wextra -Werror
 NAME = minishell
 SRC = 	main.c \
 		output.c \
