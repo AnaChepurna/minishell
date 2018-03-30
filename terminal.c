@@ -56,6 +56,7 @@ int		get_term_line(char **str, int prompt)
 	replace(str, ft_strjoin(*str, content));
 	free(content);
 	carriage_down(ft_wstrlen(content), i, prompt);
+	ft_putstr("\n");
 	return (1);
 }
 

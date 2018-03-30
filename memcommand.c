@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void		add_command(char *command)
+static void		add_command(char *command)
 {
 	t_list	*current;
 	int		i;
@@ -22,7 +22,51 @@ void		add_command(char *command)
 	ft_lstadd(&g_command, current);
 }
 
-char		*memcommand_manager(int mod, char *command)
+static char		*up_command(t_list **up, t_list **down)
+{
+	char	*res;
+	int		n;
+	int		len;
+
+	if (!*down && !*up)
+		*up = ft_lstmap(g_command, &copy_lst);
+	if (*up)
+		ft_lstadd(down, (ft_lstpop(up)));
+	if (*down)
+	{
+		len = ft_strlen((char *)(*down)->content);
+		n = 1;
+		while (n * BUFF_SIZE < len)
+			n++;
+		res = ft_strnew(BUFF_SIZE * ++n + 1);
+		return (ft_strcpy(res, (char *)(*down)->content));
+	}
+	else
+		return (NULL);
+}
+
+static char		*down_command(t_list **up, t_list **down)
+{
+	char	*res;
+	int		len;
+	int		n;
+
+	if (*down)
+		ft_lstadd(up, (ft_lstpop(down)));
+	if (*down)
+	{
+		len = ft_strlen((char *)(*down)->content);
+		n = 1;
+		while (n * BUFF_SIZE < len)
+			n++;
+		res = ft_strnew(BUFF_SIZE * ++n + 1);
+		return (ft_strcpy(res, (char *)(*down)->content));
+	}
+	else
+		return (ft_strnew(BUFF_SIZE + 1));
+}
+
+char			*memcommand_manager(int mod, char *command)
 {
 	static t_list	*down = NULL;
 	static t_list	*up = NULL;
@@ -35,72 +79,8 @@ char		*memcommand_manager(int mod, char *command)
 		return (NULL);
 	}
 	if (mod == UP)
-	{
-		if (!down && !up)
-			up = ft_lstmap(g_command, &copy_lst);
-		if (up)
-			ft_lstadd(&down, (ft_lstpop(&up)));
-		return (down ? ft_strdup((char *)down->content) : NULL);
-	}
+		return (up_command(&up, &down));
 	if (mod == DOWN)
-	{
-		if (down)
-			ft_lstadd(&up, (ft_lstpop(&down)));
-		return (down ? ft_strdup((char *)down->content) : ft_strnew(BUFF_SIZE + 1));
-	}
+		return (down_command(&up, &down));
 	return (NULL);
-}
-
-void		clear_concole(int width, int real_len, int prompt)
-{
-	int		n;
-
-	while (prompt > width)
-	prompt -= width;
-	while ((real_len + prompt) / width > prompt)
-	{
-		ft_putstr("[A\r");
-		n = 0;
-		while (n++ < width)
-			ft_putstr(" ");
-		real_len -= width;
-	}
-	ft_putstr("[A\r");
-	n = 0;
-	while (n++ < prompt)
-		ft_putstr("[C");
-	while (n++ <= width)
-		ft_putstr(" ");
-	ft_putstr("\r");
-	n = 0;
-	while (n++ < prompt)
-		ft_putstr("[C");
-}
-
-void		print_memcommand(char *command, char *old, int i, int prompt)
-{
-	int		real_len;
-	int		width;
-
-	width = get_width();
-	real_len = ft_wstrlen(old);
-	carriage_down(real_len, i, prompt);
-	clear_concole(width, real_len, prompt);
-	ft_putstr(command);
-	if ((ft_wstrlen(command) + prompt) % width == 0)
-		ft_putstr("\n");
-}
-
-void	carriage_down(int real_len, int i, int prompt)
-{
-	int width;
-
-	width = get_width();
-	prompt = prompt % width; 
-	while ((real_len + prompt) / width >  (i + prompt) / width)
-	{
-		i += width;
-		ft_putstr("[B");
-	}
-	ft_putstr("\n");
 }

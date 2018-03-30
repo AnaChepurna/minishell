@@ -54,7 +54,7 @@ int		print_prompt(void)
 	{
 		ft_putstr(":");
 		ft_putstr(pwd);
-		ret += ft_wstrlen(pwd);
+		ret += ft_wstrlen(pwd) + 1;
 		free(pwd);
 	}
 	ft_putstr("> ");
