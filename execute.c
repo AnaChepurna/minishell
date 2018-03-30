@@ -110,7 +110,11 @@ static int	exec_builtin(char **args)
 		return (1);
 	}
 	if (ft_strequ(args[0], "undoenv"))
-		return (undo_var(args[1]));
+	{
+		while (*(++args))
+			undo_var(*args);
+		return (1);
+	}
 	if (ft_strequ(args[0], "reset"))
 		return (reset_env());
 	return (0);
@@ -127,7 +131,7 @@ void		execute(char *command)
 	while (args[i])
 	{
 		debug_home(&(args[i]));
-		delete_quotes(&(args[i]));
+		delete_quotes(&(args[i]), 0);
 		debug_vars(&(args[i]));
 		i++;
 	}

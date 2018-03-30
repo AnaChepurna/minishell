@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:54:39 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:54:42 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void			handle_back(int *i, char *str, int prompt)
@@ -11,13 +23,13 @@ void			handle_back(int *i, char *str, int prompt)
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
 	if (*i)
 	{
-		if ((real_i + prompt) % width == 0) //&& real_i != ft_wstrlen(str))
+		if ((real_i + prompt) % width == 0)
 		{
 			ft_putstr("[A");
 			while (width--)
 				ft_putstr("[C");
 		}
-		else //if ((real_i + prompt) % width != 0)
+		else
 			ft_putstr("[D");
 		(*i)--;
 		while (str[*i] < 0 && !(str[*i] & 64))
@@ -34,14 +46,12 @@ void			handle_forward(int *i, char *str, int prompt)
 		return ;
 	width = get_width();
 	real_i = ft_wstrlen(str) - ft_wstrlen(str + *i);
-	if (*i >= ft_strlen(str)) //|| ())
+	if (*i >= ft_strlen(str))
 		return ;
 	if ((real_i + prompt) % width == width - 1)
 	{
 		ft_putstr("\r");
 		ft_putstr("[B");
-		//while (width--)
-			//ft_putstr("[D");
 	}
 	else
 		ft_putstr("[C");
@@ -80,18 +90,18 @@ int				handle_controls(char *c, int *i, char **str, int prompt)
 		print_memcommand(command, *str, *i, prompt);
 		free(*str);
 		*str = command;
-		*i = ft_strlen(command); 
+		*i = ft_strlen(command);
 		return (1);
 	}
 	else if (ft_strequ(c, "[B"))
 	{
 		command = memcommand_manager(DOWN, NULL);
 		if (!command)
-			return(1);
+			return (1);
 		print_memcommand(command, *str, *i, prompt);
 		free(*str);
 		*str = command;
-		*i = ft_strlen(command); 
+		*i = ft_strlen(command);
 		return (1);
 	}
 	return (0);

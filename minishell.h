@@ -44,6 +44,8 @@ int		g_status;
 int		g_ret_status;
 t_list	*g_command;
 int		g_stop;
+static struct termios old;
+static struct termios new;
 
 /*
 **execute.c
@@ -124,7 +126,6 @@ int		get_term_input(char **str);
 void	autocomplete(int *i, char **str, int prompt);
 void	complete_file(char *word, int *i, char **str, int prompt);
 
-
 /*
 **utils.c
 */
@@ -156,10 +157,11 @@ char	*get_overlap(t_list *lst);
 char	*memcommand_manager(int mod, char *command);
 
 /*
-**memcommand2.c
+**carriage.c
 */
 void	carriage_down(int len, int i, int prompt);
 void	print_memcommand(char *command, char *old, int i, int prompt);
+void	back_carriage(char *str, int back, int prompt);
 
 /*
 **overlap2.c

@@ -35,12 +35,11 @@ void	sigint_fork_handler(int signo)
 	}
 }
 
-int				eot(char *dst, char *content, int i, int prompt)
+int		eot(char *dst, char *content, int i, int prompt)
 {
 	carriage_down(ft_wstrlen(content), i, prompt);
 	clear_global();
 	free(content);
-	free (dst);
-	//kill(0, SIGTERM);
+	free(dst);
 	return (0);
 }

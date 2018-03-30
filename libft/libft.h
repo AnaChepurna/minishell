@@ -114,6 +114,6 @@ void				ft_strrev(char *str);
 char				**ft_strsplitm(const char *s, const char *mask);
 char				**ft_strsplitmq(const char *s, const char *mask);
 char				*ft_pathjoin(char *path, char *name);
-void				delete_quotes(char **input);
+void				delete_quotes(char **input, int i);
 
 #endif

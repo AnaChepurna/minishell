@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminal.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:55:45 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:55:47 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static struct termios old, new;
-
-void	init_term(void) 
+void	init_term(void)
 {
 	tcgetattr(0, &old);
 	new = old;
@@ -11,7 +21,7 @@ void	init_term(void)
 	tcsetattr(0, TCSANOW, &new);
 }
 
-void	reset_term(void) 
+void	reset_term(void)
 {
 	tcsetattr(0, TCSANOW, &old);
 }
@@ -33,9 +43,9 @@ void	init_parser(char **dst, char **content, int *i)
 
 int		get_term_line(char **str, int prompt)
 {
-	char  	c[5];
+	char	c[5];
 	char	*content;
-	int 	i;
+	int		i;
 
 	content = NULL;
 	init_parser(NULL, &content, &i);
@@ -78,7 +88,7 @@ int		get_term_input(char **str)
 		{
 			print_error("minishell", "syntax problem: unexpected eof\n");
 			input = ft_strdup("");
-			break;
+			break ;
 		}
 	}
 	reset_term();

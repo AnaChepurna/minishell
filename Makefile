@@ -25,7 +25,7 @@ SRC = 	main.c \
 		utils.c \
 		terminal.c \
 		memcommand.c \
-		memcommand2.c \
+		carriage.c \
 		parse.c \
 		overlap.c \
 		overlap2.c \

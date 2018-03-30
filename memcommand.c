@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memcommand.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:55:37 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:55:38 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void		add_command(char *command)
@@ -12,7 +24,7 @@ static void		add_command(char *command)
 		if (ft_strequ((char*)current->content, command))
 		{
 			current = ft_lstrm(&g_command, i);
-			break;
+			break ;
 		}
 		i++;
 		current = current->next;

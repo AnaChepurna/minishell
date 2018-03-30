@@ -14,7 +14,7 @@
 
 static int		depend_mask(char c, const char *mask)
 {
-	while(*mask)
+	while (*mask)
 	{
 		if (c == *mask)
 			return (1);
@@ -30,17 +30,17 @@ static int		split_len(const char *str, const char *mask)
 
 	i = -1;
 	while (str[++i] && !depend_mask(str[i], mask))
+	{
+		if (str[i] == '"' || str[i] == '\'')
 		{
-			if (str[i] == '"' || str[i] == '\'')
-			{
-				c = str[i];
-				i++;
-				while (str[i] && str[i] != c)
-					i++;
-			}
-			else if (str[i])
+			c = str[i];
+			i++;
+			while (str[i] && str[i] != c)
 				i++;
 		}
+		else if (str[i])
+			i++;
+	}
 	return (i);
 }
 

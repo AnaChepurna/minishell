@@ -43,7 +43,7 @@ int			count_word(char *str)
 	return (i);
 }
 
-void		debug_vars(char	**input)
+void		debug_vars(char **input)
 {
 	char	*res;
 	char	*ptr;

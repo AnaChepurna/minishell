@@ -14,7 +14,7 @@
 
 static int		depend_mask(char c, const char *mask)
 {
-	while(*mask)
+	while (*mask)
 	{
 		if (c == *mask)
 			return (1);
@@ -30,16 +30,16 @@ static int		split_len(const char *str, const char *mask)
 
 	i = -1;
 	while (str[++i] && !depend_mask(str[i], mask))
+	{
+		if (str[i] == '"' || str[i] == '\'' || str[i] == '`')
 		{
-			if (str[i] == '"' || str[i] == '\'')
-			{
-				c = str[i];
-				while (str[++i] && str[i] != c)
-					{}
-			}
-			else
+			c = str[i++];
+			while (str[i] && str[i] != c)
 				i++;
 		}
+		else
+			i++;
+	}
 	return (i);
 }
 
@@ -54,11 +54,11 @@ static int		recursive_count(const char *str, const char *mask)
 		str--;
 		while (*(++str) && !depend_mask(*str, mask))
 		{
-			if (*str == '"' || *str == '\'')
+			if (*str == '"' || *str == '\'' || *str == '`')
 			{
-				c = *str;
-				while (*(++str) && *str != c)
-					{}
+				c = *(str++);
+				while (*str && *str != c)
+					str++;
 			}
 		}
 		return (1 + recursive_count(str, mask));
@@ -82,7 +82,7 @@ static int		recursive_split(char **dst, const char *str,
 		i = 0;
 		while (*(++str) && !depend_mask(*str, mask))
 		{
-			if (*str == '"' || *str == '\'')
+			if (*str == '"' || *str == '\'' || *str == '`')
 			{
 				c = *str;
 				while (*(++str) && *str != c)

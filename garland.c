@@ -18,17 +18,17 @@ static t_list	*maping(t_list *lst)
 	char	*color_name;
 
 	color_name = (char *)lst->content;
-	if (ft_strequ (color_name, "blue"))
+	if (ft_strequ(color_name, "blue"))
 		color_code = BLUE;
-	else if (ft_strequ (color_name, "red"))
+	else if (ft_strequ(color_name, "red"))
 		color_code = RED;
-	else if (ft_strequ (color_name, "green"))
+	else if (ft_strequ(color_name, "green"))
 		color_code = GREEN;
-	else if (ft_strequ (color_name, "yellow"))
+	else if (ft_strequ(color_name, "yellow"))
 		color_code = YELLOW;
-	else if (ft_strequ (color_name, "cyan"))
+	else if (ft_strequ(color_name, "cyan"))
 		color_code = CYAN;
-	else if (ft_strequ (color_name, "white"))
+	else if (ft_strequ(color_name, "white"))
 		color_code = WHITE;
 	else
 		color_code = MAGENTA;
@@ -54,7 +54,7 @@ static t_list	*create_cycle(char *str)
 	return (res_end);
 }
 
-static void		init_list(char	*str, t_list **list)
+static void		init_list(char *str, t_list **list)
 {
 	t_list	*start;
 

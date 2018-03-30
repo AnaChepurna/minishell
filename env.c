@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*get_var(t_list *env, char *var_name)
+char		*get_var(t_list *env, char *var_name)
 {
 	t_list	*lst;
 	size_t	len;
@@ -35,7 +35,7 @@ char	*get_var(t_list *env, char *var_name)
 	return (NULL);
 }
 
-int		unset_var(char *var_name, int save)
+int			unset_var(char *var_name, int save)
 {
 	t_list	*lst;
 	int		i;

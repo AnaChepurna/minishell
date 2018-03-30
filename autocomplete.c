@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   autocomplete.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:54:51 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:54:54 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 int		word_number(char *str, int i, char **ptr)
 {
@@ -11,17 +22,17 @@ int		word_number(char *str, int i, char **ptr)
 		return (0);
 	while (j >= 0 && !(IS_SPACE(str[j])))
 		j--;
-	*ptr = ft_strsub(str, j + 1, i - j);
+	*ptr = ft_strsub(str, j + 1, i - j - 1);
 	while (j >= 0 && IS_SPACE(str[j]))
 		j--;
 	if (j >= 0 && str[j] != ';')
-		return(2);
+		return (2);
 	return (1);
 }
 
 void	complete_command(char *arg_word, int *i, char **str, int prompt)
 {
-	t_list 			*lst;
+	t_list			*lst;
 	char			*path;
 	char			*word;
 	int				n;
@@ -31,14 +42,15 @@ void	complete_command(char *arg_word, int *i, char **str, int prompt)
 	word = ft_strdup(arg_word);
 	if (full_command_list(&lst, word))
 		input_str((char *)lst->content, i, str, prompt);
-	else if ((n = check_dir(&word, &path)) && full_bin_list(&lst, path, word, n))
+	else if ((n = check_dir(&word, &path)) &&
+		full_bin_list(&lst, path, word, n))
 		input_str((char *)lst->content, i, str, prompt);
 	else
 		complete_file(word, i, str, prompt);
 	if (path)
 		free(path);
 	free(word);
-	ft_lstdel(&lst, &ft_memclr); 
+	ft_lstdel(&lst, &ft_memclr);
 }
 
 void	complete_file(char *arg_word, int *i, char **str, int prompt)
@@ -64,7 +76,7 @@ void	complete_file(char *arg_word, int *i, char **str, int prompt)
 
 void	complete_var(char *word, int *i, char **str, int prompt)
 {
-	t_list *lst;
+	t_list	*lst;
 	char	*res;
 
 	lst = NULL;

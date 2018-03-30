@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:53:54 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:53:55 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		check_dir(char **path, char **res_dir)
+int					check_dir(char **path, char **res_dir)
 {
 	int			i;
 	int			isdir;
@@ -26,7 +38,7 @@ int		check_dir(char **path, char **res_dir)
 	return (isdir);
 }
 
-int		symbol_size(char c)
+int					symbol_size(char c)
 {
 	int	n;
 

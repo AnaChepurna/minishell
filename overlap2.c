@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   overlap2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achepurn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/30 13:54:21 by achepurn          #+#    #+#             */
+/*   Updated: 2018/03/30 13:54:23 by achepurn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	add_builtin(t_list **lst, char *word, char *name, int len)
@@ -23,7 +35,7 @@ static void	add_commands(t_list **lst, char *word, int len)
 
 int			full_command_list(t_list **lst, char *word)
 {
-	int 		len;
+	int			len;
 	char		**paths;
 	int			i;
 
@@ -31,7 +43,7 @@ int			full_command_list(t_list **lst, char *word)
 	if ((paths = ft_strsplit(get_var(g_env, "PATH="), ':')))
 	{
 		i = 0;
-		while(paths[i])
+		while (paths[i])
 			full_bin_list(lst, paths[i++], word, 0);
 		ft_arrfree(&paths);
 	}
@@ -39,17 +51,18 @@ int			full_command_list(t_list **lst, char *word)
 	if ((paths = ft_strsplit(get_var(g_env, "USER_COMMAND="), ':')))
 	{
 		i = -1;
-		while(paths[++i])
+		while (paths[++i])
 		{
 			if (ft_strnequ(word, paths[i], len) && !ft_strequ(word, paths[i]))
-				ft_lstadd(lst, ft_lstnew(paths[i] + len, ft_strlen(paths[i] + len) + 1));
+				ft_lstadd(lst, ft_lstnew(paths[i] + len,
+					ft_strlen(paths[i] + len) + 1));
 		}
 		ft_arrfree(&paths);
 	}
 	return (*lst ? 1 : 0);
 }
 
-int		full_var_list(t_list **lst, char *word)
+int			full_var_list(t_list **lst, char *word)
 {
 	t_list	*env;
 	char	*var;

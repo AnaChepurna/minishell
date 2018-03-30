@@ -68,14 +68,13 @@ static void		handle_commands(char *input)
 int				main(int c, char **v, char **e)
 {
 	char	*input;
- 
+
 	(void)c;
 	(void)v;
 	g_start_env = e;
 	init_global();
 	while (1)
 	{
-		//signal(SIGINT, sigint_handler);
 		if (get_term_input(&input))
 		{
 			handle_commands(input);
